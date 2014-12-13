@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/martindale/decentralize",
   "dependencies": {
-    "maki": "git://github.com/martindale/maki"
+    "maki": "git://github.com/martindale/maki",
+    "procure": "^0.1.3"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
