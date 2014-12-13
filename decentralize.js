@@ -17,6 +17,20 @@ var show = procure('http://decentral.fm/shows/decentralize', function(err, data)
     source: 'http://localhost:15005/recordings'/**/,
     icon: 'sound'
   });
+  
+  var Index = decentralize.define('Index', {
+    name: 'Index',
+    routes: { query: '/' },
+    templates: { query: 'index' },
+    requires: {
+      'Recording': {
+        filter: {} 
+      }
+    },
+    static: true,
+    internal: true
+  });
+
 
   decentralize.start();
 });
