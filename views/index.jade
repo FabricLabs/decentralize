@@ -1,0 +1,14 @@
+extends layouts/default
+
+block content
+  .ui.header
+    h1.huge Hello, #{config.service.name}.
+    h2 !{ markdown( config.service.mission ) }
+    
+    p !{ markdown( config.service.description ) }
+    
+    if (recordings.length)
+      - var show = recordings[0];
+      h3 Latest Show
+      h4 #{ show.title }
+      audio(src="", controls="true")
