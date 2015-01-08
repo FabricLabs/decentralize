@@ -8,19 +8,40 @@ block content
     p !{ markdown( config.service.description ) }
     
     if (recordings.length)
-      - var show = recordings[0];
+      - var recording = recordings[0];
       h3 Latest Show
-      h4 #{ show.title }
+      h4 #{ recording.title }
       audio(src="", controls="true")
 
-  .ui.feed
-    if (recordings.length)
-      for show in recordings
-        .event
-          .content
-            .summary
-              a.user #{config.service.name}
-              |  published 
-              a(href="") #{show.title}
-              abbr.date(title="#{show.released}") #{show.released}
-            .extra.text !{markdown( show.description )}
+  .ui.grid
+    .ten.wide.column
+      .ui.feed
+        if (recordings.length)
+          for recording in recordings
+            .event
+              .content
+                .summary
+                  a.user #{config.service.name}
+                  |  published 
+                  a(href="") #{recording.title}
+                  abbr.date(title="#{recording.released}") #{recording.released}
+                .extra.text(style="max-width: none;") !{markdown( recording.description )}
+    
+    .six.wide.column
+      .ui.fluid.card
+        a.ui.attached.button(href="/about") About Us
+        .content
+          h2.header HACK THE PLANET.
+          p.description We're Chaz, Eric, Tony, and James – we're here to talk about anything and everything decentralized!
+        a.ui.bottom.attached.button(href="/about") Learn More &raquo;
+
+      .ui.fluid.card
+        a.ui.attached.button(href="/contact") Get In Touch
+        .content
+          h2.header ALL THE MEDIUMS.
+          p.description
+            ul
+              li Twitter
+              li Facebook
+              li Google+
+        a.ui.bottom.attached.button(href="/contact") Email Us &raquo;

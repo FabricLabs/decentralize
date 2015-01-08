@@ -10,6 +10,7 @@ var Soundcloud = require('./lib/Soundcloud');
 // toggle this for production vs. local version.
 /*/var base = 'http://decentral.fm/';/*/
 var base = 'http://localhost:15005/';/**/
+var home = 'http://' + config.service.authority;
 
 procure( base + 'shows/decentralize', function(err, show) {
 
@@ -42,8 +43,10 @@ procure( base + 'shows/decentralize', function(err, show) {
     static: true,
     internal: true
   });
-  
+
   soundcloud.get('users/decentralyze/tracks', function(err, tracks) {
+    
+    // TODO: error handling
     tracks = JSON.parse( tracks ).reverse();
     
     async.map( tracks , function(track, done) {
@@ -73,8 +76,9 @@ procure( base + 'shows/decentralize', function(err, show) {
       });
     }, function(err, results) {
     
-      decentralize.start();
-
+      decentralize.start(function() {
+        decentralize.app.locals.show = show;
+      });
     });
   });
 });
