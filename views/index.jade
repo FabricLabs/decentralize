@@ -12,3 +12,15 @@ block content
       h3 Latest Show
       h4 #{ show.title }
       audio(src="", controls="true")
+
+  .ui.feed
+    if (recordings.length)
+      for show in recordings
+        .event
+          .content
+            .summary
+              a.user #{config.service.name}
+              |  published 
+              a(href="") #{show.title}
+              abbr.date(title="#{show.released}") #{show.released}
+            .extra.text !{markdown( show.description )}
