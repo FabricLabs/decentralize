@@ -2,7 +2,7 @@ extends layouts/default
 
 block content
   .ui.header
-    h1.huge Hello, #{config.service.name}.
+    h1.huge #{config.service.name}.
     h2 !{ markdown( config.service.mission ) }
     
     p !{ markdown( config.service.description ) }
