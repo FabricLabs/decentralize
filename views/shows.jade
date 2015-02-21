@@ -1,0 +1,7 @@
+extends layouts/default
+
+block content
+  h1 All Shows
+  .ui.feed
+    for show in shows
+      include partials/show

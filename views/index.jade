@@ -15,7 +15,7 @@ block content
       br
       br
       
-      audio(src="#{ latestShow.base }files/#{latestShow.audio}", controls="true", style="width: 100%;")
+      audio(src="#{ show.base }files/#{latestShow.audio}", controls="true", style="width: 100%;")
 
   br
   br
@@ -25,20 +25,15 @@ block content
 
   .ui.grid
     .ten.wide.column
-      h3 Previous Shows
-      .ui.feed
-        if (shows.length)
-          for show, i in shows
-            if (i > 0)
-              .event
-                .content
-                  .summary
-                    a.user #{config.service.name}
-                    |  published 
-                    a(href="/shows/#{show.slug}") #{show.title}
-                    abbr.date(title="#{show.released}") #{show.released}
-                  .extra.text(style="max-width: none;") !{ (show.description) ? markdown( show.description ) : '' }
-                    a.ui.button(href="/shows/#{show.slug}") Listen Now &raquo;
+      .ui.fluid.card
+        a.ui.attached.button(href="/shows") Previous Shows
+        .content
+          .ui.feed
+            if (shows.length)
+              for show, i in shows
+                if (i > 0 && i <= 10)
+                  include partials/show
+        a.ui.attached.button(href="/shows") View All &raquo;
       
     .six.wide.column
       .ui.fluid.card

@@ -12,7 +12,6 @@ var WebSocket = require('ws');
 
 var jsonpatch = require('fast-json-patch');
 
-// toggle this for production vs. local version.
 /**/var base = 'http://decentral.fm/'; var host = 'decentral.fm';/*/
 var base = 'http://localhost:15005/'; var host = 'localhost'/**/
 var home = 'http://' + config.service.authority;
@@ -56,6 +55,12 @@ procure( base + 'shows/decentralize', function(err, show) {
 
   decentralize.start(function() {
     decentralize.app.locals.show = show;
+    decentralize.app.get('/about', function(req, res, next) {
+      res.render('about');
+    });
+    decentralize.app.get('/contact', function(req, res, next) {
+      res.render('contact');
+    });
     
     var ws = new WebSocket('ws://' + host + '/recordings');
     ws.on('message', function(data) {
@@ -68,28 +73,19 @@ procure( base + 'shows/decentralize', function(err, show) {
       }
     });
     
-    setTimeout(function() {
-      console.log( decentralize.resources['Show'].data );
+    setInterval(function() {
       updateFromSoundcloud();
-    }, /**/ 2500 /*/ 6 * 3600 * 1000 /**/ );
+    }, /*/ 2500 /*/ 6 * 3600 * 1000 /**/ );
   });
   
   function updateFromSoundcloud() {
     soundcloud.get('users/decentralyze/tracks', function(err, tracks) {
       // TODO: error handling
-      try {
-        tracks = JSON.parse( tracks ).reverse();
-      } catch (e) {
-        return;
-      }
-      
+      tracks = JSON.parse( tracks ).reverse();
       console.log('tracks returned from soundcloud:', tracks.length , err );
-      
       Show.query({ /* TODO: query by title/slug */ }, function(err, recordings) {
         async.mapSeries( tracks , function(track, done) {
-          var episode = _.find( recordings , function( el ) {
-            return el.title === track.title;
-          });
+          var episode = _.find( recordings , function(e) { return e.title === track.title; });
           if (episode) return done( null , episode );
           console.log('no episode wat');
           var streamURL = track.stream_url + '?client_id=' + config.soundcloud.clientID;

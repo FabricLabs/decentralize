@@ -1,0 +1,11 @@
+.event
+  .content
+    .summary
+      a.user #{config.service.name}
+      |  published 
+      a(href="/shows/#{show.slug}") #{show.title}
+      abbr.date(title="#{show.released}") #{ moment( show.released ).fromNow() }
+    .extra.text(style="max-width: none;") !{ (show.description) ? markdown( show.description ) : '' }
+    a.ui.button.attached.right(href="/shows/#{show.slug}")
+      i.sound.icon
+      | Listen Now &raquo;
