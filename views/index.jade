@@ -6,27 +6,40 @@ block content
     h2 !{ markdown( config.service.mission ) }
     
     p !{ markdown( config.service.description ) }
-    
-    if (recordings.length)
-      - var recording = recordings[0];
+
+    if (shows.length)
+      - var latestShow = shows[0];
       h3 Latest Show
-      h4 #{ recording.title }
-      audio(src="", controls="true")
+      h4 #{ latestShow.title }
+      
+      br
+      br
+      
+      audio(src="#{ latestShow.base }files/#{latestShow.audio}", controls="true", style="width: 100%;")
+
+  br
+  br
+  br
+  br
+  br
 
   .ui.grid
     .ten.wide.column
+      h3 Previous Shows
       .ui.feed
-        if (recordings.length)
-          for recording in recordings
-            .event
-              .content
-                .summary
-                  a.user #{config.service.name}
-                  |  published 
-                  a(href="") #{recording.title}
-                  abbr.date(title="#{recording.released}") #{recording.released}
-                .extra.text(style="max-width: none;") !{markdown( recording.description )}
-    
+        if (shows.length)
+          for show, i in shows
+            if (i > 0)
+              .event
+                .content
+                  .summary
+                    a.user #{config.service.name}
+                    |  published 
+                    a(href="/shows/#{show.slug}") #{show.title}
+                    abbr.date(title="#{show.released}") #{show.released}
+                  .extra.text(style="max-width: none;") !{ (show.description) ? markdown( show.description ) : '' }
+                    a.ui.button(href="/shows/#{show.slug}") Listen Now &raquo;
+      
     .six.wide.column
       .ui.fluid.card
         a.ui.attached.button(href="/about") About Us

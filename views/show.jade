@@ -1,0 +1,11 @@
+extends layouts/default
+
+block content
+  h1 #{ item.title }
+  p !{ markdown(item.description || '') }
+
+  p
+    a.ui.button.tooltipped(href="#{show.base}files/#{item.audio}", title="Download the full mp3.") Download &raquo;
+
+  p
+    audio(src="#{show.base}files/#{item.audio}", controls="true", style="width: 100%;")
