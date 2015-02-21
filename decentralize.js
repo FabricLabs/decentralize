@@ -7,11 +7,14 @@ var _ = require('lodash');
 
 var Maki = require('maki');
 var Soundcloud = require('./lib/Soundcloud');
-var Form = require('form-data')
+var Form = require('form-data');
+var WebSocket = require('ws');
+
+var jsonpatch = require('fast-json-patch');
 
 // toggle this for production vs. local version.
-/*/var base = 'http://decentral.fm/';/*/
-var base = 'http://localhost:15005/';/**/
+/**/var base = 'http://decentral.fm/'; var host = 'decentral.fm';/*/
+var base = 'http://localhost:15005/'; var host = 'localhost'/**/
 var home = 'http://' + config.service.authority;
 
 procure( base + 'shows/decentralize', function(err, show) {
@@ -50,6 +53,26 @@ procure( base + 'shows/decentralize', function(err, show) {
     static: true,
     internal: true
   });
+
+  decentralize.start(function() {
+    decentralize.app.locals.show = show;
+    
+    var ws = new WebSocket('ws://' + host + '/recordings');
+    ws.on('message', function(data) {
+      console.log('DATAGRAM:' , data );
+      var msg = JSON.parse( data );
+      if (msg.method === 'patch') {
+        if (msg.params.channel === '/recordings') {
+          jsonpatch.apply( decentralize.resources['Show'].data , msg.params.ops );
+        }
+      }
+    });
+    
+    setTimeout(function() {
+      console.log( decentralize.resources['Show'].data );
+      updateFromSoundcloud();
+    }, /**/ 2500 /*/ 6 * 3600 * 1000 /**/ );
+  });
   
   function updateFromSoundcloud() {
     soundcloud.get('users/decentralyze/tracks', function(err, tracks) {
@@ -68,6 +91,7 @@ procure( base + 'shows/decentralize', function(err, show) {
             return el.title === track.title;
           });
           if (episode) return done( null , episode );
+          console.log('no episode wat');
           var streamURL = track.stream_url + '?client_id=' + config.soundcloud.clientID;
           var form = new Form();
           form.append( '_show' , show._id );
@@ -77,28 +101,22 @@ procure( base + 'shows/decentralize', function(err, show) {
           form.append( 'audio', request.get( streamURL ) );
           form.submit({
             method: 'post',
-            host: base,
-            path: 'recordings' 
+            host: host,
+            path: '/recordings',
+            headers: {
+              'accept': 'application/json'
+            }
           }, function(err, res) {
             res.resume();
-            decentralize.resources['Show'].data.push( res.body )
             return done( null , res.body );
           });
 
         }, function(err, results) {
           if (err) console.error( err );
-          if (results && results.length) return console.log('updated some tracks.');
+          if (results && results.length) return console.log('updated some tracks.', decentralize.resources['Show'].data );
         });
       });
     });
   }
 
-  decentralize.start(function() {
-    decentralize.app.locals.show = show;
-    
-    setInterval(function() {
-      console.log( decentralize.resources['Show'].data );
-    }, 6 * 3600 * 1000 );
-    
-  });
 });
