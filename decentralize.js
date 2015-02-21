@@ -76,6 +76,8 @@ procure( base + 'shows/decentralize', function(err, show) {
     setInterval(function() {
       updateFromSoundcloud();
     }, /*/ 2500 /*/ 6 * 3600 * 1000 /**/ );
+    updateFromSoundcloud();
+
   });
   
   function updateFromSoundcloud() {
