@@ -2,25 +2,27 @@ extends layouts/default
 
 block content
   .ui.header
-    h1.huge #{config.service.name}.
-    h2 !{ markdown( config.service.mission ) }
-    
+    h1.huge(style="margin-bottom: 0; padding-bottom: 0;") #{config.service.name}.
+    h2(style="margin-top:0; padding-top:0; letter-spacing: 0.2em; text-transform: uppercase;") !{ markdown( config.service.mission ) }
+
     p !{ markdown( config.service.description ) }
 
     if (shows.length)
       - var latestShow = shows[0];
-      h3 Latest Show
-      h4 #{ latestShow.title }
-      
-      br
-      br
-      
-      audio(src="#{ show.base }files/#{latestShow.audio}", controls="true", style="width: 100%;")
+      h2 Our Latest Show...
+      h3 #{ latestShow.title } 
+        small from 
+          abbr.tooltipped(title="#{ moment( latestShow.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( latestShow.released ).fromNow() }
 
-  br
-  br
-  br
-  br
+      br
+      
+      p
+        audio(src="#{ show.base }files/#{latestShow.audio}", controls="true", style="width: 100%;")
+
+      br
+      
+      p !{markdown( latestShow.description )}
+
   br
 
   .ui.grid

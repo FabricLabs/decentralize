@@ -1,8 +1,9 @@
 .ui.main.tiered.menu.large
   .menu
-    a.item(href="/")
-      i.icon.lab.left
-      | #{config.service.name}
+    a.item(href="/", title="#{config.service.name} THE PODCAST")
+      img(src="/img/decentralize-emblem.gif", style="max-height: 2em; float:left;", alt="D")
+      | #{config.service.name.substring(1)}
+      span(style="display:block; font-size: 0.8em; letter-spacing: 0.1285em;") THE PODCAST
 
     //- block for prepend/append/replace-able menu items
     block mainMenu
