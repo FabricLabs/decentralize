@@ -16,42 +16,42 @@ var jsonpatch = require('fast-json-patch');
 var base = 'http://localhost:15005/'; var host = 'localhost'/**/
 var home = 'http://' + config.service.authority;
 
+var decentralize = new Maki( config );
+var soundcloud = new Soundcloud( config.soundcloud );
+
+var Show = decentralize.define('Show', {
+  attributes: {
+    title: { type: String , slug: true },
+    slug: { type: String },
+    recorded: { type: Date },
+    released: { type: Date , default: Date.now , required: true },
+    description: { type: String },
+    audio: { type: String }
+  },
+  names: { get: 'item' },
+  source: base + 'recordings',
+  icon: 'sound'
+});
+
+var Index = decentralize.define('Index', {
+  name: 'Index',
+  routes: { query: '/' },
+  templates: { query: 'index' },
+  requires: {
+    'Show': {
+      filter: {}
+    }
+  },
+  static: true,
+  internal: true
+});
+
 procure( base + 'shows/decentralize', function(err, show) {
 
   // TODO: catch error
   show = JSON.parse( show );
   show.base = base;
   show.home = home;
-
-  var decentralize = new Maki( config );
-  var soundcloud = new Soundcloud( config.soundcloud );
-
-  var Show = decentralize.define('Show', {
-    attributes: {
-      title: { type: String , slug: true },
-      slug: { type: String },
-      recorded: { type: Date },
-      released: { type: Date , default: Date.now , required: true },
-      description: { type: String },
-      audio: { type: String }
-    },
-    names: { get: 'item' },
-    source: base + 'recordings',
-    icon: 'sound'
-  });
-
-  var Index = decentralize.define('Index', {
-    name: 'Index',
-    routes: { query: '/' },
-    templates: { query: 'index' },
-    requires: {
-      'Show': {
-        filter: {}
-      }
-    },
-    static: true,
-    internal: true
-  });
 
   decentralize.start(function() {
     decentralize.app.locals.show = show;
