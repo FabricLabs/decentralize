@@ -50,41 +50,55 @@ procure( base + 'shows/decentralize', function(err, show) {
     static: true,
     internal: true
   });
-
-  soundcloud.get('users/decentralyze/tracks', function(err, tracks) {
-    
-    // TODO: error handling
-    tracks = JSON.parse( tracks ).reverse();
-    
-    async.map( tracks , function(track, done) {
+  
+  function updateFromSoundcloud() {
+    soundcloud.get('users/decentralyze/tracks', function(err, tracks) {
+      // TODO: error handling
+      try {
+        tracks = JSON.parse( tracks ).reverse();
+      } catch (e) {
+        return;
+      }
+      
+      console.log('tracks returned from soundcloud:', tracks.length , err );
+      
       Show.query({ /* TODO: query by title/slug */ }, function(err, recordings) {
-        var episode = _.find( recordings , function( el ) {
-          return el.title === track.title;
+        async.mapSeries( tracks , function(track, done) {
+          var episode = _.find( recordings , function( el ) {
+            return el.title === track.title;
+          });
+          if (episode) return done( null , episode );
+          var streamURL = track.stream_url + '?client_id=' + config.soundcloud.clientID;
+          var form = new Form();
+          form.append( '_show' , show._id );
+          form.append( 'title' , track.title );
+          form.append( 'released' , Date.parse( track.created_at ) );
+          form.append( 'description' , track.description );
+          form.append( 'audio', request.get( streamURL ) );
+          form.submit({
+            method: 'post',
+            host: base,
+            path: 'recordings' 
+          }, function(err, res) {
+            res.resume();
+            decentralize.resources['Show'].data.push( res.body )
+            return done( null , res.body );
+          });
+
+        }, function(err, results) {
+          if (err) console.error( err );
+          if (results && results.length) return console.log('updated some tracks.');
         });
-        if (episode) return done( null , episode );
-        
-        var streamURL = track.stream_url + '?client_id=' + config.soundcloud.clientID;
-
-        console.log('downloading...')
-
-        var form = new Form();
-        form.append( '_show' , show._id );
-        form.append( 'title' , track.title );
-        form.append( 'released' , Date.parse( track.created_at ) );
-        form.append( 'description' , track.description );
-        form.append( 'audio', request.get( streamURL ) );
-        form.submit( base + 'recordings' , function(err, res) {
-          res.resume();
-          console.log('ok');
-          done();
-        });
-
-      });
-    }, function(err, results) {
-    
-      decentralize.start(function() {
-        decentralize.app.locals.show = show;
       });
     });
+  }
+
+  decentralize.start(function() {
+    decentralize.app.locals.show = show;
+    
+    setInterval(function() {
+      console.log( decentralize.resources['Show'].data );
+    }, 6 * 3600 * 1000 );
+    
   });
 });
