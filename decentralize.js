@@ -95,7 +95,16 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
   
   function updateFromSoundcloud() {
     soundcloud.get('users/decentralyze/tracks', function(err, tracks) {
-      tracks = JSON.parse( tracks ).reverse();
+      if (err) {
+        console.log(err);
+        return;
+      }
+      try {
+        tracks = JSON.parse( tracks ).reverse();
+      } catch (e) {
+        console.log(e);
+        return;
+      }
       Show.query({}, function(err, recordings) {
         async.mapSeries( tracks , function(track, done) {
           var episode = _.find( recordings , function(e) { return e.title === track.title; });
