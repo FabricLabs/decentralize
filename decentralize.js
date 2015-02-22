@@ -12,9 +12,19 @@ var WebSocket = require('ws');
 
 var jsonpatch = require('fast-json-patch');
 
-/**/var base = 'http://decentral.fm/'; var host = 'decentral.fm';/*/
-var base = 'http://localhost:15005/'; var host = 'localhost'/**/
+/*/var base = 'http://decentral.fm/'; var host = 'decentral.fm'; var authority = 'decentral.fm';/*/
+var base = 'http://localhost:15005/'; var host = 'localhost'; var authority = 'localhost:15005';/**/
 var home = 'http://' + config.service.authority;
+
+/**/var source = {
+  host: 'localhost',
+  port: '15005'
+};/*/
+var source = {
+  host: 'decentral.fm',
+  port: '80'
+}
+/**/
 
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
@@ -54,6 +64,8 @@ procure( base + 'shows/decentralize', function(err, show) {
   show.home = home;
 
   decentralize.start(function() {
+    console.log('show:', show);
+    
     decentralize.app.locals.show = show;
     decentralize.app.get('/about', function(req, res, next) {
       res.render('about');
@@ -62,7 +74,7 @@ procure( base + 'shows/decentralize', function(err, show) {
       res.render('contact');
     });
     
-    var ws = new WebSocket('ws://' + host + '/recordings');
+    var ws = new WebSocket('ws://' + source.host +':'+ source.port + '/recordings');
     ws.on('message', function(data) {
       console.log('DATAGRAM:' , data );
       var msg = JSON.parse( data );
@@ -82,15 +94,13 @@ procure( base + 'shows/decentralize', function(err, show) {
   
   function updateFromSoundcloud() {
     soundcloud.get('users/decentralyze/tracks', function(err, tracks) {
-      // TODO: error handling
       tracks = JSON.parse( tracks ).reverse();
-      console.log('tracks returned from soundcloud:', tracks.length , err );
-      Show.query({ /* TODO: query by title/slug */ }, function(err, recordings) {
+      Show.query({}, function(err, recordings) {
         async.mapSeries( tracks , function(track, done) {
           var episode = _.find( recordings , function(e) { return e.title === track.title; });
           if (episode) return done( null , episode );
           console.log('no episode wat');
-          var streamURL = track.stream_url + '?client_id=' + config.soundcloud.clientID;
+          var streamURL = track.download_url + '?client_id=' + config.soundcloud.clientID;
           var form = new Form();
           form.append( '_show' , show._id );
           form.append( 'title' , track.title );
@@ -99,13 +109,12 @@ procure( base + 'shows/decentralize', function(err, show) {
           form.append( 'audio', request.get( streamURL ) );
           form.submit({
             method: 'post',
-            host: host,
-            path: '/recordings',
-            headers: {
-              'accept': 'application/json'
-            }
+            host: source.host,
+            port: source.port,
+            path: '/recordings'
           }, function(err, res) {
             res.resume();
+            console.log('form submitted', err , res.statusCode );
             return done( null , res.body );
           });
 

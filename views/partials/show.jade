@@ -7,5 +7,10 @@
       abbr.date.tooltipped(title="#{ moment( show.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( show.released ).fromNow() }
     .extra.text(style="max-width: none;") !{ (show.description) ? markdown( show.description ) : '' }
     a.ui.button.attached.right(href="/shows/#{show.slug}")
+      | md5: #{show.hash}
+    a.ui.button.attached.right(href="/shows/#{show.torrent}")
+      i.magnet.icon
+      | Torrent
+    a.ui.button.attached.right(href="/shows/#{show.slug}")
       i.sound.icon
       | Listen Now &raquo;

@@ -26,6 +26,7 @@
     "form-data": "^0.2.0",
     "lodash": "^3.3.0",
     "maki": "git://github.com/martindale/maki",
+    "node-torrent-stream": "git://github.com/unusualbob/node-torrent-stream",
     "procure": "^0.1.3",
     "request": "^2.53.0",
     "restler": "^3.2.2",

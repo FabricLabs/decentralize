@@ -2,10 +2,19 @@ extends layouts/default
 
 block content
   h1 #{ item.title }
-  p !{ markdown(item.description || '') }
-
   p
-    a.ui.button.tooltipped(href="#{show.base}files/#{item.audio}", title="Download the full mp3.") Download &raquo;
+    .ui.buttons
+      a.ui.button.tooltipped(href="#{show.base}files/#{item.audio}", title="Download the full mp3.")
+        i.download.icon
+        | Download &raquo;
+      a.ui.button.tooltipped(href="#{show.base}files/#{item.audio}", title="Help distribute this content by using BitTorrent.")
+        i.magnet.icon
+        | Torrent &raquo;
+      a.ui.button.tooltipped(href="#{show.base}files/#{item.audio}", title="Verify your copy of this file.")
+        i.lock.icon
+        | Verify &raquo;
+
+  p !{ markdown(item.description || '') }
 
   p
     audio(src="#{show.base}files/#{item.audio}", controls="true", style="width: 100%;")
