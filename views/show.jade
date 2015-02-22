@@ -4,13 +4,13 @@ block content
   h1 #{ item.title }
   p
     .ui.buttons
-      a.ui.button.tooltipped(href="#{show.base}files/#{item.audio}", title="Download the full mp3.")
+      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.audio}", title="Download the full mp3.")
         i.download.icon
         | Download &raquo;
-      a.ui.button.tooltipped(href="#{show.base}files/#{item.audio}", title="Help distribute this content by using BitTorrent.")
+      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.audio}", title="Help distribute this content by using BitTorrent.")
         i.magnet.icon
         | Torrent &raquo;
-      a.ui.button.tooltipped(href="#{show.base}files/#{item.audio}", title="Verify your copy of this file.")
+      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.audio}", title="Verify your copy of this file.")
         i.lock.icon
         | Verify &raquo;
 

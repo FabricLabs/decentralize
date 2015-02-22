@@ -12,19 +12,20 @@ var WebSocket = require('ws');
 
 var jsonpatch = require('fast-json-patch');
 
-/*/var base = 'http://decentral.fm/'; var host = 'decentral.fm'; var authority = 'decentral.fm';/*/
-var base = 'http://localhost:15005/'; var host = 'localhost'; var authority = 'localhost:15005';/**/
 var home = 'http://' + config.service.authority;
 
-/**/var source = {
+/**/
+var source = {
   host: 'localhost',
   port: '15005'
-};/*/
+};
+/*/
 var source = {
   host: 'decentral.fm',
   port: '80'
 }
 /**/
+source.authority = source.host + ((source.port != 80) ? ':' + source.port : '');
 
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
@@ -39,7 +40,7 @@ var Show = decentralize.define('Show', {
     audio: { type: String }
   },
   names: { get: 'item' },
-  source: base + 'recordings',
+  source: 'http://' + source.host + ':' + source.port + '/recordings',
   icon: 'sound'
 });
 
@@ -56,11 +57,11 @@ var Index = decentralize.define('Index', {
   internal: true
 });
 
-procure( base + 'shows/decentralize', function(err, show) {
+procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', function(err, show) {
 
   // TODO: catch error
   show = JSON.parse( show );
-  show.base = base;
+  show.source = source;
   show.home = home;
 
   decentralize.start(function() {
