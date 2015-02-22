@@ -11,6 +11,7 @@ var Form = require('form-data');
 var WebSocket = require('ws');
 
 var jsonpatch = require('fast-json-patch');
+var contentDisposition = require('content-disposition');
 
 var home = 'http://' + config.service.authority;
 var soundcloudSlug = 'decentralize-podcast';
@@ -110,24 +111,36 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
         async.mapSeries( tracks , function(track, done) {
           var episode = _.find( recordings , function(e) { return e.title === track.title; });
           if (episode) return done( null , episode );
+          if (!track.download_url) return console.log('track not downloadable:' , track.title );
           console.log('no episode wat');
 
-          var streamURL = track.stream_url + '?client_id=' + config.soundcloud.clientID;
           var form = new Form();
           form.append( '_show' , show._id );
           form.append( 'title' , track.title );
           form.append( 'released' , Date.parse( track.created_at ) );
           form.append( 'description' , track.description );
-          form.append( 'audio', request.get( streamURL ) );
-          form.submit({
-            method: 'post',
-            host: source.host,
-            port: source.port,
-            path: '/recordings'
-          }, function(err, res) {
-            res.resume();
-            console.log('form submitted', err , res.statusCode );
-            return done( null , res.body );
+          
+          var streamURL = track.download_url + '?client_id=' + config.soundcloud.clientID;
+
+          var r = request.get( streamURL );
+          r.on('response', function(response) {
+            var disposition = contentDisposition.parse( response.headers['content-disposition'] );
+            var filename = disposition.parameters.filename;
+
+            form.append( 'audio', response , {
+              filename: filename,
+              contentType: response.headers['content-type']
+            });
+            form.submit({
+              method: 'post',
+              host: source.host,
+              port: source.port,
+              path: '/recordings'
+            }, function(err, res) {
+              res.resume();
+              console.log('form submitted', err , res.statusCode );
+              return done( null , res.body );
+            });
           });
 
         }, function(err, results) {
