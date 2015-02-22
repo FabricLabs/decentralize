@@ -13,6 +13,7 @@ var WebSocket = require('ws');
 var jsonpatch = require('fast-json-patch');
 
 var home = 'http://' + config.service.authority;
+var soundcloudSlug = 'decentralize-podcast';
 
 /**/
 var source = {
@@ -94,7 +95,7 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
   });
   
   function updateFromSoundcloud() {
-    soundcloud.get('users/decentralyze/tracks', function(err, tracks) {
+    soundcloud.get('users/' + soundcloudSlug + '/tracks', function(err, tracks) {
       if (err) {
         console.log(err);
         return;
@@ -110,7 +111,8 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
           var episode = _.find( recordings , function(e) { return e.title === track.title; });
           if (episode) return done( null , episode );
           console.log('no episode wat');
-          var streamURL = track.download_url + '?client_id=' + config.soundcloud.clientID;
+
+          var streamURL = track.stream_url + '?client_id=' + config.soundcloud.clientID;
           var form = new Form();
           form.append( '_show' , show._id );
           form.append( 'title' , track.title );
