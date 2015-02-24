@@ -1,7 +1,7 @@
 .event
   .content
     .summary
-      a.user #{config.service.name}
+      a.user(href="/") #{config.service.name}
       |  published 
       a(href="/shows/#{item.slug}") #{item.title}
       abbr.date.tooltipped(title="#{ moment( item.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( item.released ).fromNow() }
