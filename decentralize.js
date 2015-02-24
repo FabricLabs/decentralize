@@ -130,7 +130,7 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
               track.release_year,
               track.release_month,
               track.release_day
-            ].join('-') + ' 20:00:00 +0000';
+            ].join('-') + ' 15:00:00 +0000';
           }
 
           var form = new Form();
