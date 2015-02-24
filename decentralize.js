@@ -125,10 +125,18 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
           if (!track.download_url) return console.log('track not downloadable:' , track.title );
           console.log('no episode found on decentral.fm for show: "'+track.title+'"!  initiating upload...');
 
+          if (track.release_year && track.release_month && track.release_day) {
+            var releaseDate = [
+              track.release_year,
+              track.release_month,
+              track.release_day
+            ].join('-') + ' 20:00:00 +0000';
+          }
+
           var form = new Form();
           form.append( '_show' , show._id );
           form.append( 'title' , track.title );
-          form.append( 'released' , Date.parse( track.created_at ) );
+          form.append( 'released' , Date.parse( releaseDate || track.created_at ) );
           form.append( 'description' , track.description );
           
           var streamURL = track.download_url + '?client_id=' + config.soundcloud.clientID;
