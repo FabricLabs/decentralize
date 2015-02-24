@@ -32,7 +32,7 @@ block content
         .content
           .ui.feed
             if (shows.length)
-              for show, i in shows
+              for item, i in shows
                 if (i > 0 && i <= 10)
                   include partials/show
         a.ui.attached.button(href="/shows") View All &raquo;

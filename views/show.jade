@@ -2,12 +2,13 @@ extends layouts/default
 
 block content
   h1 #{ item.title }
+  h2 md5: <code>#{item.md5}</code>
   p
     .ui.buttons
       a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.audio}", title="Download the full mp3.")
         i.download.icon
         | Download &raquo;
-      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.audio}.torrent", title="Help distribute this content by using BitTorrent.")
+      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.torrent}", title="Help distribute this content by using BitTorrent.")
         i.magnet.icon
         | Torrent &raquo;
       a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.audio}.md5sum", title="Verify your copy of this file.")

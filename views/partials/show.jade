@@ -3,14 +3,14 @@
     .summary
       a.user #{config.service.name}
       |  published 
-      a(href="/shows/#{show.slug}") #{show.title}
-      abbr.date.tooltipped(title="#{ moment( show.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( show.released ).fromNow() }
-    .extra.text(style="max-width: none;") !{ (show.description) ? markdown( show.description ) : '' }
-    a.ui.button.attached.right(href="/shows/#{show.slug}")
-      | md5: #{show.hash}
-    a.ui.button.attached.right(href="/shows/#{show.torrent}")
+      a(href="/shows/#{item.slug}") #{item.title}
+      abbr.date.tooltipped(title="#{ moment( item.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( item.released ).fromNow() }
+    .extra.text(style="max-width: none;") !{ (item.description) ? markdown( item.description ) : '' }
+    a.ui.button.attached.right(href="/shows/#{item.slug}")
+      | md5: #{item.hash}
+    a.ui.button.attached.right(href="http://#{show.source.authority}/files/#{item.torrent}")
       i.magnet.icon
       | Torrent
-    a.ui.button.attached.right(href="/shows/#{show.slug}")
+    a.ui.button.attached.right(href="/shows/#{item.slug}")
       i.sound.icon
       | Listen Now &raquo;

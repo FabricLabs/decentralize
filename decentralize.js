@@ -67,9 +67,8 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
   show.home = home;
 
   decentralize.start(function() {
-    console.log('show:', show);
-    
     decentralize.app.locals.show = show;
+
     decentralize.app.get('/about', function(req, res, next) {
       res.render('about');
     });
@@ -77,6 +76,8 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
       res.render('contact');
     });
     
+    // subscribe to updates to important things.
+    // mainly, recordings
     var ws = new WebSocket('ws://' + source.host +':'+ source.port + '/recordings');
     ws.on('message', function(data) {
       console.log('DATAGRAM:' , data );
@@ -85,6 +86,16 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
         if (msg.params.channel === '/recordings') {
           jsonpatch.apply( decentralize.resources['Show'].data , msg.params.ops );
         }
+        
+        if (msg.params.channel.match(/\/recordings\/(.*)/)) {
+          var recordings = decentralize.resources['Show'].data;
+          for (var i = 0; i < recordings.length; i++) {
+            if (msg.params.channel === '/recordings/' + recordings[ i ].slug ) {
+              jsonpatch.apply( recordings[ i ] , msg.params.ops );
+            }
+          }
+        }
+        
       }
     });
     
@@ -112,7 +123,7 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
           var episode = _.find( recordings , function(e) { return e.title === track.title; });
           if (episode) return done( null , episode );
           if (!track.download_url) return console.log('track not downloadable:' , track.title );
-          console.log('no episode wat');
+          console.log('no episode found on decentral.fm for show: "'+track.title+'"!  initiating upload...');
 
           var form = new Form();
           form.append( '_show' , show._id );
@@ -137,8 +148,9 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
               port: source.port,
               path: '/recordings'
             }, function(err, res) {
+              if (err) console.error(err);
               res.resume();
-              console.log('form submitted', err , res.statusCode );
+              console.log('recording submitted', err , res.statusCode );
               return done( null , res.body );
             });
           });
