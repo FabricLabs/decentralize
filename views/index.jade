@@ -15,21 +15,21 @@ block content
 
       .ui.grid
         p.centered.row
-          audio(src="//#{ show.source.authority }/files/#{latestShow.audio}", controls="true", style="width: 100%;")
+          audio(src="//#{ show.source.authority }/files/#{latestShow.audio}", controls="true", style="width: 100%;", height="200")
         p.centered.row
-          a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{latestShow.audio}.md5sum", title="However you've received this file, its md5 checksum should be: #{latestShow.hash}")
+          a.ui.button.tooltipped(href="http://#{show.source.authority}/files/#{latestShow.audio}.md5sum", title="However you've received this file, its md5 checksum should be: #{latestShow.hash}")
             i.lock.icon
             | Verify
-          a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{latestShow.torrent}", title="Help distribute this content by using BitTorrent.")
+          a.ui.button.tooltipped(href="http://#{show.source.authority}/files/#{latestShow.torrent}", title="Help distribute this content by using BitTorrent.")
             i.cloud.download.icon
             | Torrent
-          a.ui.button.attached.right.tooltipped(href="#{latestShow.magnet}", title="Launches your BitTorrent client directly.")
+          a.ui.button.tooltipped(href="#{latestShow.magnet}", title="Launches your BitTorrent client directly.")
             i.magnet.icon
             | Magnet
-          a.ui.button.attached.right.tooltipped(href="bitcoin:#{show.donations.destination}", title="Donate to the show with Bitcoin!")
+          a.ui.button.tooltipped(href="bitcoin:#{show.donations.destination}", title="Donate to the show with Bitcoin!")
             i.bitcoin.icon
             | Donate
-          a.ui.button.attached.right(href="/shows/#{latestShow.slug}")
+          a.ui.button(href="/shows/#{latestShow.slug}")
             i.sound.icon
             | Listen Now &raquo;
 
