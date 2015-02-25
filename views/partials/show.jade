@@ -6,10 +6,10 @@
       a(href="/shows/#{item.slug}") #{item.title}
       abbr.date.tooltipped(title="#{ moment( item.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( item.released ).fromNow() }
     .extra.text(style="max-width: none;") !{ (item.description) ? markdown( item.description.split('\n\n')[0] ) : '' }
-    a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{item.audio}.md5sum", title="However you've received this file, its md5 checksum should be: #{item.hash}")
+    a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{item.audio}.md5sum", title="However you've received this file, its md5 checksum should be: #{item.hash} BitTorrent will automatically check this for you.")
       i.lock.icon
       | Verify
-    a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{item.torrent}", title="Help distribute this content by using BitTorrent.")
+    a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{item.torrent}", title="Using BitTorrent will help make this content resistant to censorship.  Contribute by seeding your local copy to the network!")
       i.cloud.download.icon
       | Torrent
     a.ui.button.attached.right.tooltipped(href="#{item.magnet}", title="Launches your BitTorrent client directly.")
@@ -18,6 +18,6 @@
     a.ui.button.attached.right.tooltipped(href="bitcoin:#{show.donations.destination}", title="Donate to the show with Bitcoin!")
       i.bitcoin.icon
       | Donate
-    a.ui.button.attached.right(href="/shows/#{item.slug}")
+    a.ui.button.attached.right.tooltipped(href="/shows/#{item.slug}", title="View the full show notes at the permalink.")
       i.sound.icon
       | Listen Now &raquo;
