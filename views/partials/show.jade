@@ -5,7 +5,7 @@
       |  published 
       a(href="/shows/#{item.slug}") #{item.title}
       abbr.date.tooltipped(title="#{ moment( item.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( item.released ).fromNow() }
-    .extra.text(style="max-width: none;") !{ (item.description) ? markdown( item.description ) : '' }
+    .extra.text(style="max-width: none;") !{ (item.description) ? markdown( item.description.split('\n\n')[0] ) : '' }
     a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{item.audio}.md5sum", title="However you've received this file, its md5 checksum should be: #{item.hash}")
       i.lock.icon
       | Verify

@@ -9,19 +9,31 @@ block content
 
     if (shows.length)
       - var latestShow = shows[0];
-      h2 Our Latest Show...
-      h3 #{ latestShow.title } 
+      h2 #{ latestShow.title } 
         small from 
           abbr.tooltipped(title="#{ moment( latestShow.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( latestShow.released ).fromNow() }
 
-      br
-      
-      p
-        audio(src="//#{ show.source.authority }/files/#{latestShow.audio}", controls="true", style="width: 100%;")
+      .ui.grid
+        p.centered.row
+          audio(src="//#{ show.source.authority }/files/#{latestShow.audio}", controls="true", style="width: 100%;")
+        p.centered.row
+          a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{latestShow.audio}.md5sum", title="However you've received this file, its md5 checksum should be: #{latestShow.hash}")
+            i.lock.icon
+            | Verify
+          a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{latestShow.torrent}", title="Help distribute this content by using BitTorrent.")
+            i.cloud.download.icon
+            | Torrent
+          a.ui.button.attached.right.tooltipped(href="#{latestShow.magnet}", title="Launches your BitTorrent client directly.")
+            i.magnet.icon
+            | Magnet
+          a.ui.button.attached.right.tooltipped(href="bitcoin:#{show.donations.destination}", title="Donate to the show with Bitcoin!")
+            i.bitcoin.icon
+            | Donate
+          a.ui.button.attached.right(href="/shows/#{latestShow.slug}")
+            i.sound.icon
+            | Listen Now &raquo;
 
-      br
-      
-      p !{markdown( latestShow.description || '' )}
+      p !{markdown( (latestShow.description || '').split('\n\n')[0] )}
 
   br
 
