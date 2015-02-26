@@ -1,10 +1,16 @@
 doctype xml
-rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
+rss(version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:cc="http://web.resource.org/cc/"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#")
   channel
+    atom:link(href="http://#{config.service.authority}/#{resource.collection}", rel="self", type="application/rss+xml")
     title #{config.service.name} #{resource.plural}
+    pubDate #{ moment(collection[0].released).format('ddd, DD MMM YYYY HH:mm:ss ZZ') }
     link http://#{config.service.authority}/#{resource.collection}
-    description #{tagline}
-    atom:link(href="http://#{config.service.authority}/#{resource.collection}", rel="self", type="application/rss+xml") 
+    description #{config.service.description}
     for item in collection
       item
         title #{item.title}
@@ -12,4 +18,4 @@ rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
         guid(isPermaLink="true") http://#{config.service.authority}/#{resource.collection}/#{item.slug}
         description #{markdown(item.description)}
         pubDate #{moment(item.released).format('ddd, DD MMM YYYY HH:mm:ss ZZ')}
-        enclosure(url="http://#{show.source.authority}/files/#{item.audio}", type="audio/mpeg")
+        enclosure(url="http://#{show.source.authority}/files/#{item.audio}", length="1", type="audio/mpeg")
