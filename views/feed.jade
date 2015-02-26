@@ -1,9 +1,10 @@
 doctype xml
-rss(version="2.0")
+rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
   channel
     title #{config.service.name} #{resource.plural}
-    link http://#{config.service.authority}/feed
+    link http://#{config.service.authority}/#{resource.collection}
     description #{tagline}
+    atom:link(href="http://#{config.service.authority}/#{resource.collection}", rel="self", type="application/rss+xml") 
     for item in collection
       item
         title #{item.title}
