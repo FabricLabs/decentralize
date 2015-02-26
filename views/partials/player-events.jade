@@ -1,0 +1,8 @@
+script.
+  var player = document.getElementsByTagName('audio')[0];
+  player.addEventListener('playing', function() {
+    ga('send', 'event', 'show', 'listen', 'started');
+  });
+  player.addEventListener('ended', function() {
+    ga('send', 'event', 'show', 'listen', 'completed');
+  });

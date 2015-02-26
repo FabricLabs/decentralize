@@ -1,5 +1,8 @@
 extends layouts/default
 
+block scripts
+  include partials/player-events
+
 block content
   h1 #{ item.title }
   h2 md5: <code>#{item.hash}</code>
