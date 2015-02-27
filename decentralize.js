@@ -75,6 +75,12 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
     decentralize.app.get('/contact', function(req, res, next) {
       res.render('contact');
     });
+    decentralize.app.get('/:somePath', function(req, res, next) {
+      Show.get({ slug: req.param('somePath') }, function(err, show) {
+        if (show) return res.redirect('/shows/' + show.slug );
+        next();
+      });
+    });
     
     // subscribe to updates to important things.
     // mainly, recordings
