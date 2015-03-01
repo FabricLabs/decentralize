@@ -16,6 +16,6 @@ rss(version="2.0"
         title #{item.title}
         link http://#{config.service.authority}/#{resource.collection}/#{item.slug}
         guid(isPermaLink="true") http://#{config.service.authority}/#{resource.collection}/#{item.slug}
-        description #{markdown(item.description)}
+        description <![CDATA[!{markdown(item.description)}]]>
         pubDate #{moment(item.released).format('ddd, DD MMM YYYY HH:mm:ss ZZ')}
-        enclosure(url="http://#{show.source.authority}/files/#{item.audio}", length="1", type="audio/mpeg")
+        enclosure(url="http://#{show.source.authority}/files/#{item.media}", length="#{item.length}", type="audio/mpeg")
