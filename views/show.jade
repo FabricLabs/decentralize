@@ -5,6 +5,10 @@ block scripts
 
 block content
   h1 #{ item.title }
+
+  p
+    include partials/viewer
+
   p
     .ui.buttons
       a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}", title="Download the full mp3.")
@@ -21,12 +25,6 @@ block content
         | Verify &raquo;
 
   p !{ markdown(item.description || '') }
-
-  p
-    include partials/viewer
-
-  br
-  br
 
   h4 Verification
   p To make sure that you have an unaltered copy of this show, you should calculate its hash:

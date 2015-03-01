@@ -2,6 +2,7 @@ case item.type
   when 'audio/mpeg'
     audio(src="//#{show.source.authority}/files/#{item.media}", controls="true", style="width: 100%;")
   when 'video/mp4'
+  when 'video/quicktime'
     video(src="//#{show.source.authority}/files/#{item.media}", controls="true", style="width: 100%;")
   default
     | unknown type #{item.type}
