@@ -21,9 +21,11 @@ block content
 
       .ui.grid
         p.centered.row
-          audio(src="//#{ show.source.authority }/files/#{latestShow.audio}", controls="true", style="width: 100%;", height="200")
+          - var item = latestShow
+          include partials/viewer
+
         p.centered.row
-          a.ui.button.tooltipped(href="http://#{show.source.authority}/files/#{latestShow.audio}.md5sum", title="However you've received this file, its md5 checksum should be: #{latestShow.hash} BitTorrent will automatically check this for you.")
+          a.ui.button.tooltipped(href="http://#{show.source.authority}/files/#{latestShow.media}.md5sum", title="However you've received this file, its md5 checksum should be: #{latestShow.hash} BitTorrent will automatically check this for you.")
             i.lock.icon
             | Verify
           a.ui.button.tooltipped(href="http://#{show.source.authority}/files/#{latestShow.torrent}", title="Using BitTorrent will help make this content resistant to censorship.  Contribute by seeding your local copy to the network!")

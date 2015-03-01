@@ -6,7 +6,7 @@
       a(href="/shows/#{item.slug}") #{item.title}
       abbr.date.tooltipped(title="#{ moment( item.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( item.released ).fromNow() }
     .extra.text(style="max-width: none;") !{ (item.description) ? markdown( item.description.split('\n\n')[0] ) : '' }
-    a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{item.audio}.md5sum", title="However you've received this file, its md5 checksum should be: #{item.hash} BitTorrent will automatically check this for you.")
+    a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{item.media}.md5sum", title="However you've received this file, its md5 checksum should be: #{item.hash} BitTorrent will automatically check this for you.")
       i.lock.icon
       | Verify
     a.ui.button.attached.right.tooltipped(href="http://#{show.source.authority}/files/#{item.torrent}", title="Using BitTorrent will help make this content resistant to censorship.  Contribute by seeding your local copy to the network!")

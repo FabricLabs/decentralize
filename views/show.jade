@@ -5,10 +5,9 @@ block scripts
 
 block content
   h1 #{ item.title }
-  h2 md5: <code>#{item.hash}</code>
   p
     .ui.buttons
-      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.audio}", title="Download the full mp3.")
+      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}", title="Download the full mp3.")
         i.download.icon
         | Download &raquo;
       a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.torrent}", title="Help distribute this content by using BitTorrent.")
@@ -17,11 +16,30 @@ block content
       a.ui.button.tooltipped(href="#{item.magnet}", title="Magnet URI for this file.")
         i.magnet.icon
         | Magnet &raquo;
-      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.audio}.md5sum", title="Verify your copy of this file.")
+      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}.md5sum", title="Verify your copy of this file.")
         i.lock.icon
         | Verify &raquo;
 
   p !{ markdown(item.description || '') }
 
   p
-    audio(src="//#{show.source.authority}/files/#{item.audio}", controls="true", style="width: 100%;")
+    include partials/viewer
+
+  br
+  br
+
+  h4 Verification
+  p To make sure that you have an unaltered copy of this show, you should calculate its hash:
+  .ui.top.attached.tabular.menu
+    a.active.item(data-tab="linux") Linux
+    a.item(data-tab="osx") OSX
+  .ui.bottom.attached.active.tab.segment(data-tab="linux")
+    pre
+      code
+        | $ md5sum #{item.filename}
+        | #{item.hash} #{item.filename}
+  .ui.bottom.attached.tab.segment(data-tab="osx")
+    pre
+      code
+        | $ md5 #{item.filename}
+        | MD5 (#{item.filename}) = #{item.hash}

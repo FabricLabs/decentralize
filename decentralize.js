@@ -152,7 +152,7 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
             var disposition = contentDisposition.parse( response.headers['content-disposition'] );
             var filename = disposition.parameters.filename;
 
-            form.append( 'audio', response , {
+            form.append( 'media', response , {
               filename: filename,
               contentType: response.headers['content-type']
             });
@@ -160,7 +160,10 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
               method: 'post',
               host: source.host,
               port: source.port,
-              path: '/recordings'
+              path: '/recordings',
+              headers: {
+                Accept: 'application/json'
+              }
             }, function(err, res) {
               if (err) console.error(err);
               res.resume();
