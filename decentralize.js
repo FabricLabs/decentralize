@@ -81,6 +81,9 @@ procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', fu
         next();
       });
     });
+    decentralize.app.get('/rss', function(req, res, next) {
+      res.redirect( 301 , '/shows' );
+    });
     
     // subscribe to updates to important things.
     // mainly, recordings
