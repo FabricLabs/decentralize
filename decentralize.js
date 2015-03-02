@@ -13,16 +13,20 @@ var WebSocket = require('ws');
 var jsonpatch = require('fast-json-patch');
 var contentDisposition = require('content-disposition');
 
-var home = 'https://' + config.service.authority;
+var home = 'http://' + config.service.authority;
 var soundcloudSlug = 'decentralize-podcast';
 
 /**/
 var source = {
+  sockets: 'ws://',
+  proto: 'http://',
   host: 'localhost',
   port: '15005'
 };
 /*/
 var source = {
+  sockets: 'wss://',
+  proto: 'https://',
   host: 'decentral.fm',
   port: '80'
 }
@@ -42,7 +46,7 @@ var Show = decentralize.define('Show', {
     audio: { type: String }
   },
   names: { get: 'item' },
-  source: 'http://' + source.host + ':' + source.port + '/recordings',
+  source: source.proto + source.host + ':' + source.port + '/recordings',
   icon: 'sound'
 });
 
@@ -59,7 +63,7 @@ var Index = decentralize.define('Index', {
   internal: true
 });
 
-procure( 'https://' + source.host + ':' + source.port + '/shows/decentralize', function(err, show) {
+procure( source.proto + source.host + '/shows/decentralize', function(err, show) {
 
   // TODO: catch error
   show = JSON.parse( show );
@@ -87,7 +91,7 @@ procure( 'https://' + source.host + ':' + source.port + '/shows/decentralize', f
     
     // subscribe to updates to important things.
     // mainly, recordings
-    var ws = new WebSocket('ws://' + source.host +':'+ source.port + '/recordings');
+    var ws = new WebSocket(source.sockets + source.host +':'+ source.port + '/recordings');
     ws.on('message', function(data) {
       console.log('DATAGRAM:' , data );
       var msg = JSON.parse( data );
