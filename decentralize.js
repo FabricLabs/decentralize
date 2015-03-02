@@ -1,3 +1,5 @@
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
 var config = require('./config');
 var request = require('request');
 var procure = require('procure');
@@ -13,25 +15,26 @@ var WebSocket = require('ws');
 var jsonpatch = require('fast-json-patch');
 var contentDisposition = require('content-disposition');
 
-var home = 'http://' + config.service.authority;
+var home = 'https://' + config.service.authority;
 var soundcloudSlug = 'decentralize-podcast';
 
 /**/
 var source = {
   sockets: 'ws://',
-  proto: 'http://',
+  proto: 'http',
   host: 'localhost',
   port: '15005'
 };
 /*/
 var source = {
   sockets: 'wss://',
-  proto: 'https://',
+  proto: 'https',
   host: 'decentral.fm',
-  port: '80'
+  port: '443'
 }
 /**/
-source.authority = source.host + ((source.port != 80) ? ':' + source.port : '');
+source.authority = source.host + ((!~[80, 443].indexOf( source.port )) ? ':' + source.port : '');
+console.log('authority', source.authority);
 
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
@@ -46,7 +49,7 @@ var Show = decentralize.define('Show', {
     audio: { type: String }
   },
   names: { get: 'item' },
-  source: source.proto + source.host + ':' + source.port + '/recordings',
+  source: source.proto + '://' + source.authority + '/recordings',
   icon: 'sound'
 });
 
@@ -63,7 +66,7 @@ var Index = decentralize.define('Index', {
   internal: true
 });
 
-procure( source.proto + source.host + '/shows/decentralize', function(err, show) {
+procure( source.proto + '://' + source.authority + '/shows/decentralize', function(err, show) {
 
   // TODO: catch error
   show = JSON.parse( show );
@@ -91,7 +94,7 @@ procure( source.proto + source.host + '/shows/decentralize', function(err, show)
     
     // subscribe to updates to important things.
     // mainly, recordings
-    var ws = new WebSocket(source.sockets + source.host +':'+ source.port + '/recordings');
+    var ws = new WebSocket(source.sockets + source.authority + '/recordings');
     ws.on('message', function(data) {
       console.log('DATAGRAM:' , data );
       var msg = JSON.parse( data );
@@ -165,6 +168,7 @@ procure( source.proto + source.host + '/shows/decentralize', function(err, show)
             });
             form.submit({
               method: 'post',
+              protocol: source.proto,
               host: source.host,
               port: source.port,
               path: '/recordings',
