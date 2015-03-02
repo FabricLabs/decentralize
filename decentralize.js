@@ -13,7 +13,7 @@ var WebSocket = require('ws');
 var jsonpatch = require('fast-json-patch');
 var contentDisposition = require('content-disposition');
 
-var home = 'http://' + config.service.authority;
+var home = 'https://' + config.service.authority;
 var soundcloudSlug = 'decentralize-podcast';
 
 /**/
@@ -59,7 +59,7 @@ var Index = decentralize.define('Index', {
   internal: true
 });
 
-procure( 'http://' + source.host + ':' + source.port + '/shows/decentralize', function(err, show) {
+procure( 'https://' + source.host + ':' + source.port + '/shows/decentralize', function(err, show) {
 
   // TODO: catch error
   show = JSON.parse( show );
