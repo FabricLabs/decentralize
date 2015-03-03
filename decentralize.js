@@ -74,6 +74,9 @@ procure( source.proto + '://' + source.authority + '/shows/decentralize', functi
     // subscribe to updates to important things.
     // mainly, recordings
     var ws = new WebSocket(source.sockets + source.authority + '/recordings');
+    ws.on('error', function(err) {
+      console.error( err );
+    });
     ws.on('message', function(data) {
       console.log('DATAGRAM:' , data );
       var msg = JSON.parse( data );
