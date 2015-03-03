@@ -1,5 +1,9 @@
 extends layouts/default
 
+block append meta
+  meta(name="twitter:player:stream", content="https://#{show.source.authority}/files/#{item.media}")
+  meta(name="twitter:stream:content_type", content="audio/mpeg")
+
 block scripts
   include partials/player-events
 
