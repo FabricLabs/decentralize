@@ -1,8 +1,18 @@
 extends layouts/default
 
 block append meta
-  meta(name="twitter:player:stream", content="https://#{show.source.authority}/files/#{item.media}")
-  meta(name="twitter:stream:content_type", content="audio/mpeg")
+  //-
+    meta(name="twitter:card", content="player")
+    meta(name="twitter:title", content="#{item.title}")
+    meta(name="twitter:site", content="@DecentralizeAll")
+    meta(name="twitter:image", content="#{show.home}/img/decentralize-logo-huge.png")
+    meta(name="twitter:player", content="https://w.soundcloud.com/player/?url=#{ encodeURIComponent( 'https://'+show.source.authority+'/files/'+item.media ) }&amp;auto_play=false&amp;show_artwork=true&amp;visual=true")
+    meta(name="twitter:player:width", content="https://#{show.source.authority}/files/#{item.media}")
+    meta(name="twitter:player:height", content="https://#{show.source.authority}/files/#{item.media}")
+    meta(name="twitter:player:stream", content="https://#{show.source.authority}/files/#{item.media}")
+    meta(name="twitter:player:stream:content_type", content="audio/mpeg")
+
+  meta(name="og:audio", content="https://#{show.source.authority}/files/#{item.media}")
 
 block scripts
   include partials/player-events
