@@ -168,7 +168,7 @@ procure( source.proto + '://' + source.authority + '/shows/decentralize', functi
             });
             form.submit({
               method: 'post',
-              protocol: source.proto,
+              protocol: (source.proto === 'https') ? 'https' : undefined,
               host: source.host,
               port: source.port,
               path: '/recordings',
