@@ -13,7 +13,7 @@ var jsonpatch = require('fast-json-patch');
 var home = 'https://' + config.service.authority;
 
 var source = config.source;
-source.authority = source.host + ((!~[80, 443].indexOf( source.port )) ? ':' + source.port : '');
+source.authority = source.host + (([80, 443].indexOf( source.port ) === -1) ? ':' + source.port : '');
 
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
