@@ -137,6 +137,13 @@ procure( source.proto + '://' + source.authority + '/shows/decentralize', functi
       Show.query({}, function(err, recordings) {
         async.mapSeries( tracks , function(track, done) {
           var episode = _.find( recordings , function(e) { return e.title === track.title; });
+        
+          jsonpatch.apply( episode , [
+            { op: 'add', path: '/remotes', value: { soundcloud: {} } },
+            { op: 'add', path: '/remotes/soundcloud/id', value: track.id },
+            { op: 'add', path: '/type', value: 'soundcloud' },
+          ]);
+        
           if (episode) return done( null , episode );
           if (!track.download_url) return console.log('track not downloadable:' , track.title );
           console.log('no episode found on decentral.fm for show: "'+track.title+'"!  initiating upload...');
