@@ -1,6 +1,6 @@
 extends layouts/default
 
-block append meta
+block meta
   //-
     meta(name="twitter:card", content="player")
     meta(name="twitter:title", content="#{item.title}")
@@ -12,7 +12,19 @@ block append meta
     meta(name="twitter:player:stream", content="https://#{show.source.authority}/files/#{item.media}")
     meta(name="twitter:player:stream:content_type", content="audio/mpeg")
 
+  //- This only differes from layout in description, and the addition of audio
+  meta(name="og:title", content="DECENTRALIZE #{item.title}")
+  meta(name="og:type", content="website")
+  meta(name="og:image", content="#{show.home}/img/decentralize-logo-huge.png")
+  meta(name="og:url", content="#{show.home}/shows/#{item.slug}")
+  meta(name="og:description", content="#{ (item.description || '').split('\n\n')[0] }")
   meta(name="og:audio", content="https://#{show.source.authority}/files/#{item.media}")
+  
+  meta(name="twitter:card", content="summary")
+  meta(name="twitter:site", content="@DecentralizeAll")
+  meta(name="twitter:title", content="DECENTRALIZE #{item.title}")
+  meta(name="twitter:description", content="#{ (item.description || '').split('\n\n')[0] }")
+  meta(name="twitter:image", content="#{show.home}/img/decentralize-logo-huge.png")
 
 block scripts
   include partials/player-events
