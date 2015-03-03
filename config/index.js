@@ -13,7 +13,14 @@ module.exports = {
     source: 'https://github.com/martindale/decentralize',
     points: []
   },
+  source: {
+    sockets: 'ws://',
+    proto: 'http',
+    host: 'localhost',
+    port: '15005'
+  },
   soundcloud: {
-    clientID: '98ce66124fabdff2f33beb2f810a0a25'
+    clientID: '98ce66124fabdff2f33beb2f810a0a25',
+    slug: 'decentralize-podcast'
   }
 }
