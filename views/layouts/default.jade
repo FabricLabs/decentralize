@@ -61,6 +61,13 @@ html.no-js
     block scripts
 
     script.
+      //- Google+ for Businesses
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/platform.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
+      
       //- Twitter for Websites
       window.twttr = (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0],
