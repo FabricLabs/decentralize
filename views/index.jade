@@ -15,9 +15,10 @@ block content
 
     if (shows.length)
       - var latestShow = shows[0];
-      h2 #{ latestShow.title } 
-        small from 
-          abbr.tooltipped(title="#{ moment( latestShow.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( latestShow.released ).fromNow() }
+      h2
+        a(href="/shows/#{latestShow.slug}") #{ latestShow.title }, 
+          small published 
+            abbr.tooltipped(title="#{ moment( latestShow.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( latestShow.released ).fromNow() }
 
       .ui.grid
         p.centered.row
@@ -39,7 +40,10 @@ block content
             | Donate
           a.ui.button.tooltipped(href="/shows/#{latestShow.slug}", title="View the full show notes at the permalink.")
             i.sound.icon
-            | Listen Now &raquo;
+            | Listen &raquo;
+          a.ui.button.tooltipped(href="https://twitter.com/intent/tweet?via=DecentralizeAll&url=#{show.home}/shows/#{latestShow.slug}", title="Reply to this episode on Twitter.")
+            i.twitter.icon
+            | Discuss &raquo;
 
       p !{markdown( (latestShow.description || '').split('\n\n')[0] )}
 
