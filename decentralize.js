@@ -67,8 +67,24 @@ procure( source.proto + '://' + source.authority + '/shows/decentralize', functi
         next();
       });
     });
+    decentralize.app.get('/shows', function(req, res, next) {
+      if (req.accepts('application/rss+xml')) {
+        return res.redirect('/feed');
+      } else {
+        return next();
+      }
+    });
     decentralize.app.get('/rss', function(req, res, next) {
-      res.redirect( 301 , '/shows' );
+      res.redirect( 301 , '/feed' );
+    });
+    decentralize.app.get('/feed', function(req, res, next) {
+      Show.query({}, function(err, shows) {
+        res.set('Content-Type', 'application/rss+xml');
+        res.render('feed', {
+          resource: Show,
+          collection: shows
+        });
+      });
     });
     
     // subscribe to updates to important things.
