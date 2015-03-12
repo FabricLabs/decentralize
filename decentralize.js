@@ -117,7 +117,7 @@ procure( source.proto + '://' + source.authority + '/shows/decentralize', functi
 
     setInterval(function() {
       engine.sync();
-    }, /*/ 2500 /*/ 6 * 3600 * 1000 /**/ );
+    }, /*/ 2500 /*/ 1 * 3600 * 1000 /**/ );
     engine.sync();
 
   });
