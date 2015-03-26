@@ -6,6 +6,9 @@ var procure = require('procure');
 var Maki = require('maki');
 var Soundcloud = require('./lib/Soundcloud');
 var Engine = require('./lib/Engine');
+var Passport = require('maki-passport-local');
+var passport = new Passport();
+
 var WebSocket = require('ws');
 
 var jsonpatch = require('fast-json-patch');
@@ -17,6 +20,8 @@ source.authority = source.host + (([80, 443].indexOf( parseInt(source.port) ) ==
 
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
+
+decentralize.use( passport );
 
 Show = decentralize.define('Show', {
   attributes: {
