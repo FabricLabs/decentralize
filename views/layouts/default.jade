@@ -61,6 +61,10 @@ html.no-js
     block scripts
 
     script.
+      $(window).on('ready', function() {
+        $('.ui.video').video();
+      });
+      
       //- Twitter for Websites
       window.twttr = (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0],
