@@ -91,38 +91,14 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
         });
       });
     });
-    
-    // subscribe to updates to important things.
-    // mainly, recordings
-    var ws = new WebSocket(source.sockets + source.authority + '/recordings');
-    ws.on('error', function(err) {
-      console.error( err );
-    });
-    ws.on('message', function(data) {
-      console.log('DATAGRAM:' , data );
-      var msg = JSON.parse( data );
-      if (msg.method === 'patch') {
-        if (msg.params.channel === '/recordings') {
-          jsonpatch.apply( decentralize.resources['Show'].data , msg.params.ops );
-        }
-        
-        if (msg.params.channel.match(/\/recordings\/(.*)/)) {
-          var recordings = decentralize.resources['Show'].data;
-          for (var i = 0; i < recordings.length; i++) {
-            if (msg.params.channel === '/recordings/' + recordings[ i ].slug ) {
-              jsonpatch.apply( recordings[ i ] , msg.params.ops );
-            }
-          }
-        }
-        
-      }
-    });
-    
-    var engine = new Engine( config );
+
+    var engine = new Engine( config , decentralize );
 
     setInterval(function() {
       engine.sync();
     }, /*/ 2500 /*/ 1 * 3600 * 1000 /**/ );
+    
+    engine.subscribe();
     engine.sync();
 
   });
