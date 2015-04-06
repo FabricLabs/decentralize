@@ -21,34 +21,8 @@ var soundcloud = new Soundcloud( config.soundcloud );
 var sessions = new Sessions();
 decentralize.use( sessions );
 
-Show = decentralize.define('Show', {
-  attributes: {
-    title: { type: String , slug: true },
-    slug: { type: String },
-    recorded: { type: Date },
-    released: { type: Date , default: Date.now , required: true },
-    description: { type: String , format: 'markdown' },
-    audio: { type: String },
-    // TODO: replace with a sources list.
-    youtube: { type: String }
-  },
-  names: { get: 'item' },
-  source: source.proto + '://' + source.authority + '/recordings',
-  icon: 'sound'
-});
-
-Index = decentralize.define('Index', {
-  name: 'Index',
-  routes: { query: '/' },
-  templates: { query: 'index' },
-  requires: {
-    'Show': {
-      filter: {}
-    }
-  },
-  static: true,
-  internal: true
-});
+Show  = decentralize.define('Show',  require('./resources/Show') );
+Index = decentralize.define('Index', require('./resources/Index') );
 
 procure( source.proto + '://' + source.authority + '/shows/decentralize', function(err, show) {
   if (err) return console.error(err);
