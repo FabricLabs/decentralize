@@ -6,19 +6,27 @@ var procure = require('procure');
 var Maki = require('maki');
 var Soundcloud = require('./lib/Soundcloud');
 var Engine = require('./lib/Engine');
+
 var Sessions = require('maki-sessions');
+var ProxAuth = require('maki-auth-proxy');
+var Policies = require('maki-auth-tokens');
 
 var rest = require('restler');
 
 var home = 'https://' + config.service.authority;
 
 var source = config.source;
-source.authority = source.host + (([80, 443].indexOf( parseInt(source.port) ) === -1) ? ':' + source.port : '');
+source.authority = source.host;
+if ([80, 443].indexOf( parseInt(source.port) ) === -1) {
+  source.authority += ':' + source.port;
+}
 
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
 
+var policies = new Policies();
 var sessions = new Sessions();
+
 decentralize.use( sessions );
 
 Show  = decentralize.define('Show',  require('./resources/Show') );
