@@ -1,6 +1,12 @@
 extends layouts/default
 
 block content
+
+  h1 #{item.title}
+
+  h2 Preview
+  .preview !{ markdown( item.description ) }
+  
   h2 Edit
   
   form.ui.form(action="/shows/#{item.slug}", method="POST")
@@ -8,7 +14,7 @@ block content
       
     .field
       label Description
-      textarea(name="description", rows="50") #{item.description}
+      textarea(name="description", style="height: 20em;") #{item.description}
       
     .field
       label YouTube Video ID
@@ -23,3 +29,13 @@ block content
         input(type="password", name="password")
 
     button.ui.submit.button(type="submit") Edit &raquo;
+
+block scripts
+  script.
+    $('textarea[name=description]').keyup( renderPreview );
+    
+    function renderPreview() {
+      var value = this.value;
+      var rendered = marked( value );
+      $('.preview').html( rendered );
+    }
