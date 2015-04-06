@@ -6,7 +6,7 @@ rss(version="2.0"
   xmlns:media="http://search.yahoo.com/mrss/"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#")
   channel
-    atom:link(href="http://#{config.service.authority}/#{resource.collection}", rel="self", type="application/rss+xml")
+    atom:link(href="#{config.service.proto}://#{config.service.authority}/#{resource.collection}", rel="self", type="application/rss+xml")
     title #{config.service.name} #{resource.plural}
     pubDate #{ moment(collection[0].released).format('ddd, DD MMM YYYY HH:mm:ss ZZ') }
     link http://#{config.service.authority}/#{resource.collection}
