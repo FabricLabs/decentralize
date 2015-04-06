@@ -46,6 +46,7 @@ Index = decentralize.define('Index', {
 });
 
 procure( source.proto + '://' + source.authority + '/shows/decentralize', function(err, show) {
+  if (err) return console.error(err);
 
   // TODO: catch error
   config.show = JSON.parse( show );
