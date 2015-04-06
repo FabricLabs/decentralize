@@ -35,20 +35,30 @@ block content
   p
     include partials/viewer
 
-  p
-    .ui.buttons
-      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}", title="Download the full mp3.")
-        i.download.icon
-        | Download &raquo;
-      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.torrent}", title="Help distribute this content by using BitTorrent.")
-        i.cloud.download.icon
-        | Torrent &raquo;
-      a.ui.button.tooltipped(href="#{item.magnet}", title="Magnet URI for this file.")
-        i.magnet.icon
-        | Magnet &raquo;
-      a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}.md5sum", title="Verify your copy of this file.")
-        i.lock.icon
-        | Verify &raquo;
+  .ui.two.column.centered.grid
+    .column
+      .ui.buttons
+        a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}", title="Download the full mp3.")
+          i.download.icon
+          | Download &raquo;
+        a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.torrent}", title="Help distribute this content by using BitTorrent.")
+          i.cloud.download.icon
+          | Torrent &raquo;
+        a.ui.button.tooltipped(href="#{item.magnet}", title="Magnet URI for this file.")
+          i.magnet.icon
+          | Magnet &raquo;
+        a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}.md5sum", title="Verify your copy of this file.")
+          i.lock.icon
+          | Verify &raquo;
+
+    .column
+      .ui.three.column.grid
+        .column
+          a.g-plusone(href="https://plus.google.com/share?url=#{show.home}/shows/#{show.slug}") Share on Google &raquo;
+        .column
+          a.fb-like(href="https://www.facebook.com/sharer/sharer.php?u=#{show.home}/shows/#{show.slug}", data-width="200", data-href="#{show.home}/shows/#{show.slug}", data-layout="button_count", data-action="like", data-show-faces="false", data-share="false") Share on Facebook &raquo;
+        .column
+          a.twitter-share-button(href="#{show.home}/shows/#{show.slug}") Share on Twitter &raquo;
 
   p !{ markdown(item.description || '') }
 

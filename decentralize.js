@@ -13,7 +13,11 @@ var jsonpatch = require('fast-json-patch');
 var home = 'https://' + config.service.authority;
 
 var source = config.source;
-source.authority = source.host + (([80, 443].indexOf( parseInt(source.port) ) === -1) ? ':' + source.port : '');
+source.authority = source.host;
+if (!~[80, 443].indexOf( parseInt(source.port) )) {
+  source.authority += ':' + source.port;
+}
+source.base = source.proto + '://' + source.authority;
 
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
@@ -45,7 +49,7 @@ Index = decentralize.define('Index', {
   internal: true
 });
 
-procure( source.proto + '://' + source.authority + '/shows/decentralize', function(err, show) {
+procure( source.base + '/shows/decentralize' , function(err, show) {
   if (err) return console.error(err);
 
   // TODO: catch error
