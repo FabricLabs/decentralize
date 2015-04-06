@@ -1,0 +1,25 @@
+extends layouts/default
+
+block content
+  h2 Edit
+  
+  form.ui.form(action="/shows/#{item.slug}", method="POST")
+    input(type="hidden", name="method", value="PATCH")
+      
+    .field
+      label Description
+      textarea(name="description", rows="50") #{item.description}
+      
+    .field
+      label YouTube Video ID
+      input(type="text", name="youtube", value="#{item.youtube || ''}")
+        
+    .two.fields
+      .field
+        label decentral.fm Username
+        input(type="text", name="username")
+      .field
+        label decentral.fm Password
+        input(type="password", name="password")
+
+    button.ui.submit.button(type="submit") Edit &raquo;

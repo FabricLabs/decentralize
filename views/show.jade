@@ -32,9 +32,17 @@ block scripts
 block content
   h1 #{ item.title }
 
-  p
-    include partials/viewer
+  if (item.youtube)
+    .ui.video(data-source="youtube", data-id="#{item.youtube}")
 
+    h2 Full Audio Show
+    p
+      include partials/viewer
+      
+  else
+    p
+      include partials/viewer
+      
   p
     .ui.buttons
       a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}", title="Download the full mp3.")
