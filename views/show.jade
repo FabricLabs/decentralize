@@ -47,9 +47,9 @@ block content
         a.ui.button.tooltipped(href="#{item.magnet}", title="Magnet URI for this file.")
           i.magnet.icon
           | Magnet &raquo;
-        a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}.md5sum", title="Verify your copy of this file.")
-          i.lock.icon
-          | Verify &raquo;
+        a.ui.button.tooltipped(href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.") 
+          i.icon.bitcoin(alt="Bitoin", title="Donate Bitcoin")
+          | Donate &raquo;
 
     .column
       .ui.three.column.grid
