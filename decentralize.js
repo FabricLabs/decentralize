@@ -6,9 +6,9 @@ var procure = require('procure');
 var Maki = require('maki');
 var Soundcloud = require('./lib/Soundcloud');
 var Engine = require('./lib/Engine');
-var WebSocket = require('ws');
+var Sessions = require('maki-sessions');
 
-var jsonpatch = require('fast-json-patch');
+var rest = require('restler');
 
 var home = 'https://' + config.service.authority;
 
@@ -18,32 +18,11 @@ source.authority = source.host + (([80, 443].indexOf( parseInt(source.port) ) ==
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
 
-Show = decentralize.define('Show', {
-  attributes: {
-    title: { type: String , slug: true },
-    slug: { type: String },
-    recorded: { type: Date },
-    released: { type: Date , default: Date.now , required: true },
-    description: { type: String },
-    audio: { type: String }
-  },
-  names: { get: 'item' },
-  source: source.proto + '://' + source.authority + '/recordings',
-  icon: 'sound'
-});
+var sessions = new Sessions();
+decentralize.use( sessions );
 
-Index = decentralize.define('Index', {
-  name: 'Index',
-  routes: { query: '/' },
-  templates: { query: 'index' },
-  requires: {
-    'Show': {
-      filter: {}
-    }
-  },
-  static: true,
-  internal: true
-});
+Show  = decentralize.define('Show',  require('./resources/Show') );
+Index = decentralize.define('Index', require('./resources/Index') );
 
 procure( source.proto + '://' + source.authority + '/shows/decentralize', function(err, show) {
   if (err) return console.error(err);
@@ -75,6 +54,25 @@ procure( source.proto + '://' + source.authority + '/shows/decentralize', functi
         return next();
       }
     });
+    decentralize.app.get('/shows/:showSlug/edit', function(req, res, next) {
+      Show.get({ slug: req.param('showSlug') }, function(err, show) {
+        return res.render('show-edit', {
+          item: show
+        });
+      });
+    });
+    decentralize.app.post('/shows/:showSlug', function(req, res, next) {
+      rest.patch( source.proto + '://' + source.authority + '/recordings/' + req.param('showSlug') , {
+        headers: {
+          Accept: 'application/json'
+        },
+        data: req.body
+      }).on('complete', function(data, request) {
+        if (request.statusCode !== 200) return res.error('Editing failed');
+        req.flash('success', 'Content edited successfully!');
+        return res.redirect('/shows/' + req.param('showSlug'));
+      });
+    });
     decentralize.app.get('/rss', function(req, res, next) {
       res.redirect( 301 , '/feed' );
     });
@@ -88,38 +86,13 @@ procure( source.proto + '://' + source.authority + '/shows/decentralize', functi
       });
     });
     
-    // subscribe to updates to important things.
-    // mainly, recordings
-    var ws = new WebSocket(source.sockets + source.authority + '/recordings');
-    ws.on('error', function(err) {
-      console.error( err );
-    });
-    ws.on('message', function(data) {
-      console.log('DATAGRAM:' , data );
-      var msg = JSON.parse( data );
-      if (msg.method === 'patch') {
-        if (msg.params.channel === '/recordings') {
-          jsonpatch.apply( decentralize.resources['Show'].data , msg.params.ops );
-        }
-        
-        if (msg.params.channel.match(/\/recordings\/(.*)/)) {
-          var recordings = decentralize.resources['Show'].data;
-          for (var i = 0; i < recordings.length; i++) {
-            if (msg.params.channel === '/recordings/' + recordings[ i ].slug ) {
-              jsonpatch.apply( recordings[ i ] , msg.params.ops );
-            }
-          }
-        }
-        
-      }
-    });
-    
-    var engine = new Engine( config );
+    var engine = new Engine( config , decentralize );
 
     setInterval(function() {
       engine.sync();
     }, /*/ 2500 /*/ 1 * 3600 * 1000 /**/ );
     engine.sync();
+    engine.subscribe();
 
   });
 

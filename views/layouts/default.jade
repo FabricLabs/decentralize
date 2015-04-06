@@ -66,6 +66,10 @@ html.no-js
     script(src="https://apis.google.com/js/platform.js", async, defer)
 
     script.
+      $(window).on('ready', function() {
+        $('.ui.video').video();
+      });
+      
       //- Twitter for Websites
       window.twttr = (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0],
