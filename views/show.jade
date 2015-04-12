@@ -35,8 +35,8 @@ block content
   p
     include partials/viewer
 
-  .ui.two.column.centered.grid
-    .column
+  .ui.sixteen.column.centered.grid
+    .ten.wide.column
       .ui.buttons
         a.ui.button.tooltipped(href="//#{show.source.authority}/files/#{item.media}", title="Download the full mp3.")
           i.download.icon
@@ -51,7 +51,7 @@ block content
           i.icon.bitcoin(alt="Bitoin", title="Donate Bitcoin")
           | Donate &raquo;
 
-    .column
+    .six.wide.column
       .ui.three.column.grid
         .column
           a.g-plusone(href="https://plus.google.com/share?url=#{show.home}/shows/#{item.slug}") Share on Google &raquo;
