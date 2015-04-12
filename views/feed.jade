@@ -13,14 +13,15 @@ rss(version="2.0"
     link http://#{config.service.authority}/#{resource.collection}
     description #{config.service.description}
     itunes:author #{config.service.name}
-    itunes:category(text="Tech News")
+    itunes:category(text="Technology")
     itunes:keywords bitcoin, blockchain, cryptograph, finance
-    itunes:email eric@decentralize.fm
+    //-itunes:email eric@decentralize.fm
     for item in collection
       item
         title #{item.title}
         link http://#{config.service.authority}/#{resource.collection}/#{item.slug}
         guid(isPermaLink="true") http://#{config.service.authority}/#{resource.collection}/#{item.slug}
         description <![CDATA[!{markdown(item.description)}]]>
+        summary <![CDATA[!{ (item.description) ? markdown( item.description.split('\n\n')[0] ) : '' }]]>
         pubDate #{moment(item.released).format('ddd, DD MMM YYYY HH:mm:ss ZZ')}
         enclosure(url="http://#{show.source.authority}/files/#{item.media}", length="#{item.size}", type="audio/mpeg")
