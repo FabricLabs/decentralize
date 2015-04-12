@@ -13,8 +13,9 @@ rss(version="2.0"
     link http://#{config.service.authority}/#{resource.collection}
     description #{config.service.description}
     itunes:author #{config.service.name}
-    itunes:category Technology
+    itunes:category(text="Tech News")
     itunes:keywords bitcoin, blockchain, cryptograph, finance
+    itunes:email eric@decentralize.fm
     for item in collection
       item
         title #{item.title}
