@@ -12,6 +12,9 @@ rss(version="2.0"
     pubDate #{ moment(collection[0].released).format('ddd, DD MMM YYYY HH:mm:ss ZZ') }
     link http://#{config.service.authority}/#{resource.collection}
     description #{config.service.description}
+    itunes:author #{config.service.name}
+    itunes:category Technology
+    itunes:keywords bitcoin, blockchain, cryptograph, finance
     for item in collection
       item
         title #{item.title}
