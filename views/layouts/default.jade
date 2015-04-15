@@ -36,7 +36,7 @@ html.no-js
     script(src="/js/highlight.pack.js")
     script(src="/js/uuid.js")
     script(src="/js/jsonrpc.js")
-    
+
     script(src="/js/maki.js")
 
     base(href="/")
@@ -44,7 +44,9 @@ html.no-js
   body(ng-controller="mainController")
     #fb-root
 
-    .ui.page.grid
+    #body.ui.page.grid
+      canvas#demo-canvas
+      
       .row
         block navbar
           include ../partials/navbar
@@ -63,6 +65,19 @@ html.no-js
     block scripts
       
       
+    script(src="/js/TweenLite.min.js")
+    script(src="/js/EasePack.min.js")
+    script(src="/js/animation.js")
+      
+    style.
+      #demo-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
     script(src="https://apis.google.com/js/platform.js", async, defer)
 
     script.
