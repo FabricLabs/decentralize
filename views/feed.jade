@@ -14,16 +14,18 @@ rss(version="2.0"
     ttl 60
     language en
     copyright CC-BY
+    webMaster eric@decentralize.fm
     description #{config.service.description}
     itunes:subtitle #{config.service.description.substring(0, 49)}…
     itunes:owner
       itunes:name #{config.service.name}
+      itunes:email eric@decentralize.fm
     itunes:author #{config.service.name}
     itunes:explicit no
     itunes:category(text="Technology")
     itunes:image(href="http://i1.sndcdn.com/avatars-000133883249-rctnsg-original.png")
     itunes:keywords bitcoin, blockchain, cryptograph, finance
-    //-itunes:email eric@decentralize.fm
+
     image
       url http://i1.sndcdn.com/avatars-000133883249-rctnsg-original.png
       title #{config.service.name}
