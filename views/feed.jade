@@ -28,8 +28,8 @@ rss(version="2.0"
 
     image
       url http://i1.sndcdn.com/avatars-000133883249-rctnsg-original.png
-      title #{config.service.name}
-      link #{config.service.proto}://#{config.service.authority}
+      title #{config.service.name} #{resource.plural}
+      link #{config.service.proto}://#{config.service.authority}/#{resource.collection}
     for item in collection
       item
         guid(isPermaLink="true") http://#{config.service.authority}/#{resource.collection}/#{item.slug}
