@@ -6,7 +6,7 @@ rss(version="2.0"
   xmlns:media="http://search.yahoo.com/mrss/"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#")
   channel
-    atom:link(href="http://#{config.service.authority}/#{resource.collection}", rel="self", type="application/rss+xml")
+    atom:link(href="https://#{config.service.authority}/feed", rel="self", type="application/rss+xml")
     title #{config.service.name} #{resource.plural}
     link http://#{config.service.authority}/#{resource.collection}
     pubDate #{ moment(collection[0].released).format('ddd, DD MMM YYYY HH:mm:ss ZZ') }
@@ -14,7 +14,7 @@ rss(version="2.0"
     ttl 60
     language en
     copyright CC-BY
-    webMaster eric@decentralize.fm
+    webMaster eric@decentralize.fm (Eric Martindale)
     description #{config.service.description}
     itunes:subtitle #{config.service.description.substring(0, 49)}…
     itunes:owner
@@ -39,7 +39,7 @@ rss(version="2.0"
         itunes:duration 00:42:38
         itunes:author DECENTRALIZE
         itunes:explicit no
-        itunes:summary <![CDATA[!{markdown(item.description)}]]>
+        itunes:summary #{item.description}
         description <![CDATA[!{markdown(item.description)}]]>
         enclosure(url="http://#{show.source.authority}/files/#{item.media}", length="#{item.size}", type="audio/mpeg")
         itunes:image(href="http://i1.sndcdn.com/artworks-000113001246-vupdg4-original.png")
