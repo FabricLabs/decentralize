@@ -32,8 +32,16 @@ block scripts
 block content
   h1 #{ item.title }
 
-  p
-    include partials/viewer
+  if (item.youtube)
+    .ui.video(data-source="youtube", data-id="#{item.youtube}")
+
+    h2 Full Audio Show
+    p
+      include partials/viewer
+      
+  else
+    p
+      include partials/viewer
 
   .ui.sixteen.column.centered.grid
     .ten.wide.column
