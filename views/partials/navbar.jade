@@ -8,6 +8,10 @@
     //- block for prepend/append/replace-able menu items
     block mainMenu
       .right.menu
+        a.item.tooltipped(href="/feed", title="Subscribe to the RSS feed using a tool of your choice!")
+          i.icon.feed(alt="RSS Feed", title="Subscribe via RSS")
+          | Subscribe!
+        
         a.item.tooltipped(class="btn btn-default", href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.") 
           i.icon.bitcoin(alt="Bitoin", title="Donate Bitcoin")
           | Donate &raquo;
