@@ -29,7 +29,9 @@ Show = decentralize.define('Show', {
     recorded: { type: Date },
     released: { type: Date , default: Date.now , required: true },
     description: { type: String },
-    audio: { type: String }
+    audio: { type: String },
+    // TODO: replace with a sources list.
+    youtube: { type: String }
   },
   names: { get: 'item' },
   source: source.proto + '://' + source.authority + '/recordings',

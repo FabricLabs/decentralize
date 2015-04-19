@@ -32,8 +32,16 @@ block scripts
 block content
   h1 #{ item.title }
 
-  p
-    include partials/viewer
+  if (item.youtube)
+    .ui.video(data-source="youtube", data-id="#{item.youtube}")
+
+    h2 Full Audio Show
+    p
+      include partials/viewer
+      
+  else
+    p
+      include partials/viewer
 
   .ui.sixteen.column.centered.grid
     .ten.wide.column
@@ -62,6 +70,22 @@ block content
           a.twitter-share-button(href="#{show.home}/shows/#{item.slug}") Share on Twitter &raquo;
 
   p !{ markdown(item.description || '') }
+  
+  p
+    strong We enjoy creating this show, and we hope that you enjoy listening to it! Any #{show.donations.type} tips are appreciated.
+  .ui.buttons
+    a.ui.button.tooltipped(href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.") 
+      i.icon.bitcoin(alt="Bitoin", title="Donate Bitcoin")
+      | #{ show.donations.destination }
+    a.ui.button.tooltipped(href="https://plus.google.com/112799215242542928928")
+      i.google.icon
+      | +DECENTRALIZE.fm
+    a.ui.button.tooltipped(href="https://www.facebok.com/DecentralizeTheWorld")
+      i.facebook.icon
+      | @DecentralizeTheWorld
+    a.ui.button.tooltipped(href="https://twitter.com/DecentralizeAll")
+      i.twitter.icon
+      | @DecentralizeAll
 
   h4 Verification
   p To make sure that you have an unaltered copy of this show, you should calculate its hash:
