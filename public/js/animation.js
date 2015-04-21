@@ -76,16 +76,13 @@
     var posx = posy = 0;
 
     if (e.pageX || e.pageY) {
-      console.log('first');
       posx = e.pageX;
       posy = e.pageY - document.body.scrollTop;
     } else if (e.clientX || e.clientY) {
-      console.log('second')
       posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
       posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
     }
-    console.log('x y', posx, posy);
-    
+
     target.x = posx;
     target.y = posy;
   }
