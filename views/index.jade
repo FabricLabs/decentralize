@@ -21,6 +21,11 @@ block content
           small published 
             abbr.tooltipped(title="#{ moment( latestShow.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( latestShow.released ).fromNow() }
 
+        if (latestShow.youtube)
+          a.ui.label(href="https://www.youtube.com/watch?v=#{latestShow.youtube}")
+            i.youtube.icon
+            | video interview!
+
       .ui.grid
         p.centered.row
           - var item = latestShow

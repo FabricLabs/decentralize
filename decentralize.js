@@ -68,6 +68,8 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
     decentralize.app.get('/contact', function(req, res, next) {
       res.render('contact');
     });
+    
+    // redirect an erroneous lengthy tag
     decentralize.app.get('/shows/episode-26-nick-sullivan-on-changetip-and-the-future-of-bitcoin-microtransactions', function(req, res, next) {
       res.redirect( 301 , '/shows/episode-25-nick-sullivan');
     });
