@@ -33,12 +33,16 @@ block content
   h1 #{ item.title }
 
   if (item.youtube)
-    .ui.video(data-source="youtube", data-id="#{item.youtube}")
+    .ui.grid
+      .nine.wide.column
+        h2 Full Audio Show
+        p
+          include partials/viewer
+          
+      .seven.wide.column
+        h2 Video Interview
+        .ui.video(data-source="youtube", data-id="#{item.youtube}")
 
-    h2 Full Audio Show
-    p
-      include partials/viewer
-      
   else
     p
       include partials/viewer
