@@ -33,6 +33,9 @@ Show = decentralize.define('Show', {
     // TODO: replace with a sources list.
     youtube: { type: String },
     soundcloud: { type: String },
+    remotes: {
+      soundcloud: {}
+    }
   },
   names: { get: 'item' },
   source: source.proto + '://' + source.authority + '/recordings',
