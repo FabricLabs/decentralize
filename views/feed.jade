@@ -23,4 +23,4 @@ rss(version="2.0"
         guid(isPermaLink="true") http://#{config.service.authority}/#{resource.collection}/#{item.slug}
         description <![CDATA[!{markdown(item.description)}]]>
         pubDate #{moment(item.released).format('ddd, DD MMM YYYY HH:mm:ss ZZ')}
-        enclosure(url="http://#{show.source.authority}/files/#{item.media}", length="#{item.size}", type="audio/mpeg")
+        enclosure(url="http://#{show.source.authority}/files/#{item.filename}", length="#{item.size}", type="audio/mpeg")
