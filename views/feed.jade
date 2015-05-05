@@ -41,5 +41,5 @@ rss(version="2.0"
         itunes:explicit no
         itunes:summary #{item.description}
         description <![CDATA[!{markdown(item.description)}]]>
-        enclosure(url="http://#{show.source.authority}/files/#{item.media}", length="#{item.size}", type="audio/mpeg")
+        enclosure(url="http://#{show.source.authority}/files/#{item.filename}", length="#{item.size}", type="audio/mpeg")
         itunes:image(href="http://i1.sndcdn.com/artworks-000113001246-vupdg4-original.png")
