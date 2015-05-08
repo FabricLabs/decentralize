@@ -7,7 +7,7 @@ rss(version="2.0"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#")
   channel
     atom:link(href="https://#{config.service.authority}/feed", rel="self", type="application/rss+xml")
-    title #{config.service.name} #{resource.plural}
+    title #{config.service.name}, the podcast
     link http://#{config.service.authority}/#{resource.collection}
     pubDate #{ moment(collection[0].released).format('ddd, DD MMM YYYY HH:mm:ss ZZ') }
     lastBuildDate #{ moment(collection[0].released).format('ddd, DD MMM YYYY HH:mm:ss ZZ') }
