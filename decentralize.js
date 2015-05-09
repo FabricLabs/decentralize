@@ -30,6 +30,7 @@ Show = decentralize.define('Show', {
     released: { type: Date , default: Date.now , required: true },
     description: { type: String },
     audio: { type: String },
+    filename: { type: String },
     // TODO: replace with a sources list.
     youtube: { type: String },
     soundcloud: { type: String },
@@ -56,7 +57,7 @@ Index = decentralize.define('Index', {
 });
 
 procure( source.base + '/shows/decentralize' , function(err, show) {
-  if (err) return console.error(err);
+  if (err || !show) return console.error(err || 'no such show: decentralize');
 
   // TODO: catch error
   config.show = JSON.parse( show );
@@ -72,12 +73,12 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
     decentralize.app.get('/contact', function(req, res, next) {
       res.render('contact');
     });
-    
+
     // redirect an erroneous lengthy tag
     decentralize.app.get('/shows/episode-26-nick-sullivan-on-changetip-and-the-future-of-bitcoin-microtransactions', function(req, res, next) {
       res.redirect( 301 , '/shows/episode-25-nick-sullivan');
     });
-    
+
     decentralize.app.get('/:somePath', function(req, res, next) {
       Show.get({ slug: req.param('somePath') }, function(err, show) {
         if (show) return res.redirect('/shows/' + show.slug );
@@ -109,7 +110,7 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
     setInterval(function() {
       engine.sync();
     }, /*/ 2500 /*/ 1 * 3600 * 1000 /**/ );
-    
+
     engine.subscribe();
     engine.sync();
 
