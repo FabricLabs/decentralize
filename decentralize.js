@@ -78,6 +78,9 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
     decentralize.app.get('/shows/episode-26-nick-sullivan-on-changetip-and-the-future-of-bitcoin-microtransactions', function(req, res, next) {
       res.redirect( 301 , '/shows/episode-25-nick-sullivan');
     });
+    decentralize.app.get('/shows/episode-29-susanne-tempelhof-and-dan-metcalf-on-blockchain-applications-and-bitcoin-2-0', function(req, res, next) {
+      res.redirect( 301 , '/shows/episode-29-susanne-tempelhof-and-dan-metcalf');
+    });
 
     decentralize.app.get('/:somePath', function(req, res, next) {
       Show.get({ slug: req.param('somePath') }, function(err, show) {
