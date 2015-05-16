@@ -3,6 +3,7 @@
     when 'soundcloud'
       iframe(width="100%", height="250", scrolling="no", frameborder="no", src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/#{item.remotes.soundcloud.id}&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true")
     when 'audio/mpeg'
+    when 'audio/mp3'
       audio(src="//#{show.source.authority}/files/#{item.media}", controls, style="width: 100%;")
     when 'video/avi'
     when 'video/mp4'
