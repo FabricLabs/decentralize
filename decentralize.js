@@ -34,9 +34,6 @@ Show = decentralize.define('Show', {
     // TODO: replace with a sources list.
     youtube: { type: String },
     soundcloud: { type: String },
-    remotes: {
-      soundcloud: {}
-    }
   },
   names: { get: 'item' },
   source: source.proto + '://' + source.authority + '/recordings',
@@ -115,7 +112,7 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
     }, /*/ 2500 /*/ 1 * 3600 * 1000 /**/ );
 
     engine.subscribe();
-    //engine.sync();
+    engine.sync();
 
   });
 
