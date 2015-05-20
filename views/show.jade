@@ -82,7 +82,8 @@ block content
     p
       strong We enjoy creating this show, and we hope that you enjoy listening to it! Any #{show.donations.type} tips are appreciated.
     p
-      img(src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=bitcoin:#{show.donations.destination}")
+      a.ui.button.tooltipped(href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.")
+        img(src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=bitcoin:#{show.donations.destination}")
     p
       a.ui.button.tooltipped(href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.") 
         i.icon.bitcoin(alt="Bitoin", title="Donate Bitcoin")
