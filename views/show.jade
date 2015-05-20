@@ -68,6 +68,8 @@ block content
         .column
           a.g-plusone(href="https://plus.google.com/share?url=#{show.home}/shows/#{item.slug}") Share on Google &raquo;
         .column
+          //- TODO: notify Facebook of this bug.  When the `href` attribute is
+          //- included, the progressive enh
           //-a.fb-like(href="https://www.facebook.com/sharer/sharer.php?u=#{show.home}/shows/#{item.slug}", data-width="200", data-href="#{show.home}/shows/#{item.slug}", data-layout="button_count", data-action="like", data-show-faces="false", data-share="false") Share on Facebook &raquo;
           a.fb-like(data-width="200", data-href="#{show.home}/shows/#{item.slug}", data-layout="button_count", data-action="like", data-show-faces="false", data-share="false") Share on Facebook &raquo;
         .column
@@ -75,21 +77,16 @@ block content
 
   p !{ markdown(item.description || '') }
   
-  p
-    strong We enjoy creating this show, and we hope that you enjoy listening to it! Any #{show.donations.type} tips are appreciated.
-  .ui.buttons
-    a.ui.button.tooltipped(href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.") 
-      i.icon.bitcoin(alt="Bitoin", title="Donate Bitcoin")
-      | #{ show.donations.destination }
-    a.ui.button.tooltipped(href="https://plus.google.com/112799215242542928928")
-      i.google.icon
-      | +DECENTRALIZE.fm
-    a.ui.button.tooltipped(href="https://www.facebok.com/DecentralizeTheWorld")
-      i.facebook.icon
-      | @DecentralizeTheWorld
-    a.ui.button.tooltipped(href="https://twitter.com/DecentralizeAll")
-      i.twitter.icon
-      | @DecentralizeAll
+  if (show.donations.destination)
+    h4 Tips and Donations
+    p
+      strong We enjoy creating this show, and we hope that you enjoy listening to it! Any #{show.donations.type} tips are appreciated.
+    p
+      img(src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=bitcoin:#{show.donations.destination}")
+    p
+      a.ui.button.tooltipped(href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.") 
+        i.icon.bitcoin(alt="Bitoin", title="Donate Bitcoin")
+        | #{ show.donations.destination }
 
   h4 Verification
   p To make sure that you have an unaltered copy of this show, you should calculate its hash:
