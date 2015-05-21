@@ -29,6 +29,28 @@ block meta
 block scripts
   include partials/player-events
 
+  
+  <!-- Google Code for decentralize.fm Conversion Page -->
+  script.
+    
+    $(window).on('load', function() {
+      $('#donation-image').popup('show');
+    });
+    
+    /* <![CDATA[ */
+    var google_conversion_id = 1067658150;
+    var google_conversion_language = "en";
+    var google_conversion_format = "3";
+    var google_conversion_color = "ffffff";
+    var google_conversion_label = "1Ki_CI7gm1sQpteM_QM";
+    var google_remarketing_only = false;
+    /* ]]> */
+
+  script(src="//www.googleadservices.com/pagead/conversion.js")
+  noscript
+    div(style="display:inline;")
+      img(height="1", width="1", style="border-style:none;", alt="", src="//www.googleadservices.com/pagead/conversion/1067658150/?label=1Ki_CI7gm1sQpteM_QM&amp;guid=ON&amp;script=0")
+
 block content
   h1 #{ item.title }
 
@@ -82,8 +104,8 @@ block content
     p
       strong We enjoy creating this show, and we hope that you enjoy listening to it! Any #{show.donations.type} tips are appreciated.
     p
-      a(href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.")
-        img.max-7-5-em(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV4AAAFeAQMAAAD35eVZAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAe9JREFUaN7tm82twzAMgwlkAI+U1T1SBjCgd7D+3PbdGYA+BG38JRfDtCgpgMbbx20+cNsCMMzi3oJNXDH/CCaFHwDAZb6iAQMAzJ6YuAXTwpfte/cDmNnqb7mfy58V/ALYFmwOM2CsvdIxIfglsFlo7IJfBL8ATskdCzWxT8nSYsG0cIU9W3e/Lr9jJMEscBtjwWY4jA3/PwSzwCm0sXWBvfo+2zexYEr4jFm37j5+cnYtFkwK+1+zvVfbW8L+R2QkmBeuE7HMYxPfc7kFk8F7YpjZHOv4FXu1RTyCCeG+Q7t53BPAZZ4SEMwKt1zpYThm5lT9McGc8C5fVJDaNqdbxrbcghnhJ8KeXXvKwHWOdJCjSlGC+eCWcwsTMlNtLRI4pcqC2eBQ26pcuNo2Qc44VjAjHNm3Ktk33xiV/l7QF0wFe2Dj9r9i1tDYFZlywaRwpuCiG2P5cntF0T5bMgSTwTgan2K5zWV4IpIDJpgVzvxpmpCdA8gETp2cghnhNBe+YZ9e2o+R/lIwH9xqveE/qq+0oiDBtHC1ZHjCNH3j2RYlmBb+rCj+aEgUzA3HbJNcZEogJfejj1EwIVypnPlDhicE08PhOg6r791tgonhkNxdDh55acv93UssmAdun6ql/6hP1Y7vngQzwhrvHn80Lq6EElgjXQAAAABJRU5ErkJggg==")
+      a(href="bitcoin:#{ show.donations.destination }")
+        img#donation-image.max-7-5-em( data-position="right center", data-closable="false", data-hoverable="true", data-html="Scan this code with your Bitcoin wallet, or simply click it, and you'll be able to send us a donation.<br /><br /><a href=\"https://bitcoin.org/en/choose-your-wallet\" style=\"display: block; text-align: right;\">Get a Bitcoin Wallet &raquo;</a>", src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV4AAAFeAQMAAAD35eVZAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAe9JREFUaN7tm82twzAMgwlkAI+U1T1SBjCgd7D+3PbdGYA+BG38JRfDtCgpgMbbx20+cNsCMMzi3oJNXDH/CCaFHwDAZb6iAQMAzJ6YuAXTwpfte/cDmNnqb7mfy58V/ALYFmwOM2CsvdIxIfglsFlo7IJfBL8ATskdCzWxT8nSYsG0cIU9W3e/Lr9jJMEscBtjwWY4jA3/PwSzwCm0sXWBvfo+2zexYEr4jFm37j5+cnYtFkwK+1+zvVfbW8L+R2QkmBeuE7HMYxPfc7kFk8F7YpjZHOv4FXu1RTyCCeG+Q7t53BPAZZ4SEMwKt1zpYThm5lT9McGc8C5fVJDaNqdbxrbcghnhJ8KeXXvKwHWOdJCjSlGC+eCWcwsTMlNtLRI4pcqC2eBQ26pcuNo2Qc44VjAjHNm3Ktk33xiV/l7QF0wFe2Dj9r9i1tDYFZlywaRwpuCiG2P5cntF0T5bMgSTwTgan2K5zWV4IpIDJpgVzvxpmpCdA8gETp2cghnhNBe+YZ9e2o+R/lIwH9xqveE/qq+0oiDBtHC1ZHjCNH3j2RYlmBb+rCj+aEgUzA3HbJNcZEogJfejj1EwIVypnPlDhicE08PhOg6r791tgonhkNxdDh55acv93UssmAdun6ql/6hP1Y7vngQzwhrvHn80Lq6EElgjXQAAAABJRU5ErkJggg==")
     p
       a.ui.button.tooltipped(href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.") 
         i.icon.bitcoin(alt="Bitoin", title="Donate Bitcoin")
@@ -104,20 +126,3 @@ block content
       code
         | $ md5 #{item.filename}
         | MD5 (#{item.filename}) = #{item.hash}
-        
-block scripts
-  <!-- Google Code for decentralize.fm Conversion Page -->
-  script.
-    /* <![CDATA[ */
-    var google_conversion_id = 1067658150;
-    var google_conversion_language = "en";
-    var google_conversion_format = "3";
-    var google_conversion_color = "ffffff";
-    var google_conversion_label = "1Ki_CI7gm1sQpteM_QM";
-    var google_remarketing_only = false;
-    /* ]]> */
-
-  script(src="//www.googleadservices.com/pagead/conversion.js")
-  noscript
-    div(style="display:inline;")
-      img(height="1", width="1", style="border-style:none;", alt="", src="//www.googleadservices.com/pagead/conversion/1067658150/?label=1Ki_CI7gm1sQpteM_QM&amp;guid=ON&amp;script=0")
