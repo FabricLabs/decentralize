@@ -1,11 +1,16 @@
 extends layouts/default
 
 block content
-  .right.floated.column
-    a.ui.button(href="https://github.com/martindale/decentralize/edit/master/views/contact.jade")
-      i.pencil.icon
-      | edit
 
   h1 Contact
 
   //- TODO: contact form.  See MailPimp: https://github.com/martindale/mailpimp
+  form.ui.form(action="/contact", method="post")
+    .field
+      label Your Email Address
+      input(type="text", placeholder="you@example.com", name="from")
+    .field
+      label Your Message
+      textarea(name="message")
+    
+    button.ui.submit.button Send &raquo;
