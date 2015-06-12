@@ -70,6 +70,11 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
     decentralize.app.get('/contact', function(req, res, next) {
       res.render('contact');
     });
+    decentralize.app.post('/contact', function(req, res, next) {
+      // TODO: attach MailPimp here
+      req.flash('info', 'Mail sent successfully!  We\'ll get in touch shortly.');
+      res.redirect('/');
+    });
     decentralize.app.get('/team', function(req, res, next) {
       res.render('team');
     });
