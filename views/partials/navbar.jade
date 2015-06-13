@@ -20,12 +20,9 @@
     a.item(href="/", title="#{config.service.name} Homepage", ng-class="{ active: isActive('/')}")
       i.home.icon
       |  Home
-    each resource in resources
-      if (!resource.internal)
-        a.item(href="#{resource.routes.query}")
-          if (resource.options.icon)
-            i.icon(class="#{resource.options.icon}")
-          | #{resource.plural}
+    a.item(href="/shows", title="Shows", ng-class="{ active: isActive('/shows')}")
+      i.sound.icon
+      |  Shows
     a.item.tooltipped(href="#{ config.service.source }", title="View the Source, Luke!  Source code for this site.")
       i.fork.icon
       | Code &raquo;

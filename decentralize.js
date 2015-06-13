@@ -8,6 +8,9 @@ var Soundcloud = require('./lib/Soundcloud');
 var Engine = require('./lib/Engine');
 var WebSocket = require('ws');
 
+var Passport = require('maki-passport-local');
+var passport = new Passport({ resource: 'Person' });
+
 var jsonpatch = require('fast-json-patch');
 
 var home = 'https://' + config.service.authority;
@@ -21,6 +24,8 @@ source.base = source.proto + '://' + source.authority;
 
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
+
+decentralize.use( passport );
 
 Show = decentralize.define('Show', {
   attributes: {
@@ -38,6 +43,12 @@ Show = decentralize.define('Show', {
   names: { get: 'item' },
   source: source.proto + '://' + source.authority + '/recordings',
   icon: 'sound'
+});
+
+Person = decentralize.define('Person', {
+  attributes: {
+
+  }
 });
 
 Index = decentralize.define('Index', {
