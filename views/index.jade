@@ -69,6 +69,14 @@ block content
       
     .six.wide.column
       .ui.fluid.card
+        a.ui.attached.button(href="/subscribe")
+          i.feed.icon.orange
+          | Subscribe
+        .content
+          p.description Get an email every time we publish!
+          include forms/subscribe
+        
+      .ui.fluid.card
         a.ui.attached.button(href="/about") About Us
         .content
           h2.header HACK THE PLANET.
