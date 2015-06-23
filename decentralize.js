@@ -40,6 +40,18 @@ Show = decentralize.define('Show', {
   icon: 'sound'
 });
 
+var Subscription = decentralize.define('Subscription', {
+  attributes: {
+    email: { type: String , required: true , validator: function(value) {
+      // see HTML spec: https://html.spec.whatwg.org/multipage/forms.html#valid-e-mail-address
+      // this should mirror HTML5's "type=email", as per the above link
+      return /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test( value );
+    } },
+    status: { type: String , enum: ['requested', 'pending', 'validated'] },
+    created: { type: Date , default: Date.now },
+  }
+});
+
 Index = decentralize.define('Index', {
   name: 'Index',
   routes: { query: '/' },
