@@ -6,6 +6,7 @@ var procure = require('procure');
 var Maki = require('maki');
 var Soundcloud = require('./lib/Soundcloud');
 var Engine = require('./lib/Engine');
+var Remote = require('./lib/Remote');
 var WebSocket = require('ws');
 
 var jsonpatch = require('fast-json-patch');
@@ -40,6 +41,7 @@ Show = decentralize.define('Show', {
   icon: 'sound'
 });
 
+var MailPimp = new Remote('http://localhost:2525/subscriptions');
 var Subscription = decentralize.define('Subscription', {
   attributes: {
     email: { type: String , required: true , validator: function(value) {
@@ -47,9 +49,27 @@ var Subscription = decentralize.define('Subscription', {
       // this should mirror HTML5's "type=email", as per the above link
       return /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test( value );
     } },
-    status: { type: String , enum: ['requested', 'pending', 'validated'] },
+    status: { type: String , enum: ['requested', 'pending', 'validated'], default: 'requested' },
     created: { type: Date , default: Date.now },
   }
+});
+
+Subscription.post('create', function(next, done) {
+  var subscription = this;
+  MailPimp.create({
+    email: subscription.email,
+    // TODO: place in config, or auto-create-and-collect
+    _list: '554eb12436b33fb8b19e84b6'
+  }, function(err, data) {
+    // TODO: retry, error handling, etc.
+    if (!data._id) return;
+    Subscription.patch({ _id: subscription._id }, [
+      { op: 'replace', path: '/status', value: 'pending' }
+    ], function(err) {
+      if (err) console.error(err);
+    });
+  });
+  next();
 });
 
 Index = decentralize.define('Index', {
