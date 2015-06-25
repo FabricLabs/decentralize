@@ -108,7 +108,7 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
     var engine = new Engine( config , decentralize );
 
     setInterval(function() {
-      //engine.sync();
+      engine.sync();
     }, /*/ 2500 /*/ 1 * 3600 * 1000 /**/ );
 
     engine.subscribe();
