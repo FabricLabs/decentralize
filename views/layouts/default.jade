@@ -37,7 +37,12 @@ html.no-js
         right: 0;
         bottom: 0;
       }
-      
+
+      .rotate-180 {
+        display: inline-block;
+        transform: rotate(180deg);
+      }
+
       .max-7-5-em {
         max-height: 7.5em;
         max-width: 7.5em;
@@ -74,11 +79,24 @@ html.no-js
 
       .row
         .ui.one.column.stackable.center.aligned
-          //- stuff in footer?
-            
+          p
+            .ui.buttons
+              a.ui.button.tooltipped(href="https://plus.google.com/112799215242542928928")
+                i.google.icon
+                | +DECENTRALIZE.fm
+              a.ui.button.tooltipped(href="https://www.facebok.com/DecentralizeTheWorld")
+                i.facebook.icon
+                | @DecentralizeTheWorld
+              a.ui.button.tooltipped(href="https://twitter.com/DecentralizeAll")
+                i.twitter.icon
+                | @DecentralizeAll
+          p
+            a.rotate-180(href="https://gnu.org/copyleft/copyleft.en.html") &copy; 
+            |  DECENTRALIZE #{ (new Date()).getFullYear() } &middot; 
+            a(href="https://creativecommons.org/licenses/by/3.0/") CC-BY 3.0
+
     block scripts
-      
-      
+
     script(src="/js/TweenLite.min.js")
     script(src="/js/EasePack.min.js")
     script(src="/js/animation.js")
