@@ -60,7 +60,36 @@ block content
       .ui.fluid.card
         a.ui.attached.button(href="/shows") Previous Shows
         .content
-          .ui.feed
+          for item, i in shows
+            .ui.card
+              .content
+                .right.floated.menu 14h
+                img.ui.avatar(src="/img/eric-martindale.jpg")
+                |  
+                a Eric Martindale
+                |  shared
+              .image
+                img(src="http://thecatapi.com/api/images/get?format=src", style="max-width: 100%;")
+              .content
+                if (i % 2)
+                  span.right.floated
+                    | by 
+                    img.ui.avatar(src="/img/james-walpole.jpg", style="max-height: 1em; max-width: 1em;")
+                    |  
+                    a James Walpole
+                    br
+                    a.ui.button tip James
+
+              .extra.content
+                .ui.buttons
+                  a.ui.button
+                    i.dollar.icon
+                    | tip Eric
+                  a.ui.button
+                    i.share.icon
+                    | share
+          
+          //-.ui.feed
             if (shows.length)
               for item, i in shows
                 if (i > 0 && i <= 10)
