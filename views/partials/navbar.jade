@@ -9,9 +9,10 @@
     block mainMenu
       .right.menu
         a.item.tooltipped(href="/feed", title="Subscribe to the RSS feed using a tool of your choice!")
-          i.icon.feed(alt="RSS Feed", title="Subscribe via RSS")
+          i.icon.feed.orange(alt="RSS Feed", title="Subscribe via RSS")
+          | RSS
+        a.item.tooltipped(href="/subscribe", title="Receive email notifications when we publish!")
           | Subscribe!
-        
         a.item.tooltipped(class="btn btn-default", href="bitcoin:#{ show.donations.destination }", title="If you have a bitcoin wallet installed and configured, this will launch it.") 
           i.icon.bitcoin(alt="Bitoin", title="Donate Bitcoin")
           | Donate &raquo;
@@ -20,12 +21,9 @@
     a.item(href="/", title="#{config.service.name} Homepage", ng-class="{ active: isActive('/')}")
       i.home.icon
       |  Home
-    each resource in resources
-      if (!resource.internal)
-        a.item(href="#{resource.routes.query}")
-          if (resource.options.icon)
-            i.icon(class="#{resource.options.icon}")
-          | #{resource.plural}
+    a.item(href="/shows")
+      i.sound.icon
+      | Shows
     a.item.tooltipped(href="#{ config.service.source }", title="View the Source, Luke!  Source code for this site.")
       i.fork.icon
       | Code &raquo;
