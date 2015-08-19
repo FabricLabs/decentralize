@@ -54,12 +54,12 @@ var Subscription = decentralize.define('Subscription', {
   }
 });
 
-Subscription.post('create', function(next, done) {
+Subscription.post('create', function() {
   var subscription = this;
   MailPimp.create({
     email: subscription.email,
     // TODO: place in config, or auto-create-and-collect
-    _list: '554eb12436b33fb8b19e84b6'
+    _list: '55d490d83e5a3dcf5287129e'
   }, function(err, data) {
     // TODO: retry, error handling, etc.
     if (!data._id) return;
@@ -69,7 +69,6 @@ Subscription.post('create', function(next, done) {
       if (err) console.error(err);
     });
   });
-  next();
 });
 
 Index = decentralize.define('Index', {
