@@ -1,90 +1,16 @@
 extends layouts/default
 
 block content
-  .right.floated.column
-    a.ui.button(href="https://github.com/martindale/decentralize/edit/master/views/contact.jade")
-      i.pencil.icon
-      | edit
 
   h1 Contact
 
-  p We're happy to talk!  Feel free to contact each of us individually.
-  
-  .ui.cards
-    .card
-      .image
-        img(src="/img/chaz-ferguson.jpg")
-      .content
-        a.header Chaz Ferguson
-        .description
-          .list
-            .item
-              a(href="https://twitter.com/unchaz")
-                i.twitter.icon
-                | @unchaz
-            .item
-              a(href="mailto:chaz@decentralize.fm")
-                i.mail.icon
-                | chaz@decentralize.fm
-            .item
-              a(href="/chaz.asc")
-                i.key.icon
-                | PGP
-    .card
-      .image
-        img(src="/img/eric-martindale.jpg")
-      .content
-        a.header Eric Martindale
-        .description
-          .list
-            .item
-              a(href="https://twitter.com/martindale")
-                i.twitter.icon
-                | @martindale
-            .item
-              a(href="mailto:eric@decentralize.fm")
-                i.mail.icon
-                | eric@decentralize.fm
-            .item
-              a(href="/eric.asc")
-                i.key.icon
-                | PGP
-    .card
-      .image
-        img(src="/img/james-walpole.jpg")
-      .content
-        a.header James Walpole
-        .description
-          .list
-            .item
-              a(href="https://twitter.com/JamesLWalpole")
-                i.twitter.icon
-                | @JamesLWalpole
-            .item
-              a(href="mailto:james@decentralize.fm")
-                i.mail.icon
-                | james@decentralize.fm
-            .item
-              a(href="/james.asc")
-                i.key.icon
-                | PGP
-    .card
-      .image
-        img(src="/img/tony-sakich.jpg")
-      .content
-        a.header Tony Sakich
-        .description
-          .list
-            .item
-              a(href="https://twitter.com/TonySwish")
-                i.twitter.icon
-                | @TonySwish
-            .item
-              a(href="mailto:tony@decentralize.fm")
-                i.mail.icon
-                | tony@decentralize.fm
-            .item
-              a(href="/tony.asc")
-                i.key.icon
-                | PGP
-            
+  //- TODO: contact form.  See MailPimp: https://github.com/martindale/mailpimp
+  form.ui.form(action="/contact", method="post")
+    .field
+      label Your Email Address
+      input(type="text", placeholder="you@example.com", name="from")
+    .field
+      label Your Message
+      textarea(name="message")
+    
+    button.ui.submit.button Send &raquo;

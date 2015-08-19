@@ -28,6 +28,10 @@ var sessions = new Sessions();
 
 decentralize.use(sessions);
 
+// setup of various remotes, subservices on another Maki namespace
+var MailPimpSubscription = new Remote('http://localhost:2525/subscriptions');
+var MailPimpTask = new Remote('http://localhost:2525/tasks');
+
 Show = decentralize.define('Show', {
   attributes: {
     title: { type: String , slug: true },
@@ -46,7 +50,6 @@ Show = decentralize.define('Show', {
   icon: 'sound'
 });
 
-var MailPimp = new Remote('http://localhost:2525/subscriptions');
 var Subscription = decentralize.define('Subscription', {
   attributes: {
     email: { type: String , required: true , validator: function(value) {
@@ -69,7 +72,7 @@ var Subscription = decentralize.define('Subscription', {
 
 Subscription.post('create', function(done) {
   var subscription = this;
-  MailPimp.create({
+  MailPimpSubscription.create({
     email: subscription.email,
     // TODO: place in config, or auto-create-and-collect
     _list: '55d490d83e5a3dcf5287129e'
@@ -114,6 +117,20 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
     });
     decentralize.app.get('/contact', function(req, res, next) {
       res.render('contact');
+    });
+    decentralize.app.post('/contact', function(req, res, next) {
+      MailPimpTask.create({
+        subject: 'DECENTRALIZE Contact Form',
+        recipient: 'eric@decentralize.fm',
+        sender: req.param('from'),
+        content: req.param('message')
+      }, function(err, task) {
+        req.flash('info', 'Mail sent successfully!  We\'ll get in touch shortly.');
+        res.redirect('/');
+      });
+    });
+    decentralize.app.get('/team', function(req, res, next) {
+      res.render('team');
     });
     decentralize.app.get('/subscribe', function(req, res, next) {
       res.render('subscribe');
