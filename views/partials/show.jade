@@ -6,7 +6,7 @@
       a(href="/shows/#{item.slug}") #{item.title}
       abbr.date.tooltipped(title="#{ moment( item.released ).format('MMMM Do YYYY, h:mm:ss a') }") #{ moment( item.released ).fromNow() }
       if (item.youtube)
-        a.ui.label(href="https://www.youtube.com/watch?v=#{item.youtube}")
+        a.ui.label(href="https://www.youtube.com/watch?v=#{item.youtube}", rel="me")
           i.youtube.icon
           | video interview!
     .extra.text(style="max-width: none;") !{ (item.description) ? markdown( item.description.split('\n\n')[0] ) : '' }
