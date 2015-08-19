@@ -23,6 +23,11 @@ source.base = source.proto + '://' + source.authority;
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
 
+var Sessions = require('maki-sessions');
+var sessions = new Sessions();
+
+decentralize.use(sessions);
+
 Show = decentralize.define('Show', {
   attributes: {
     title: { type: String , slug: true },
@@ -55,7 +60,7 @@ var Subscription = decentralize.define('Subscription', {
   handlers: {
     html: {
       create: function(req, res, next) {
-        //req.flash('info', 'Successfully subscribed!  We\'ll see you soon!');
+        req.flash('info', 'Successfully subscribed!  Check your inbox for a confirmation.');
         res.redirect('/');
       }
     }
