@@ -1,0 +1,3 @@
+[submodule "services/mailpimp"]
+	path = services/mailpimp
+	url = git@github.com:martindale/mailpimp.git

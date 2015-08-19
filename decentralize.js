@@ -6,10 +6,8 @@ var procure = require('procure');
 var Maki = require('maki');
 var Soundcloud = require('./lib/Soundcloud');
 var Engine = require('./lib/Engine');
+var Remote = require('./lib/Remote');
 var WebSocket = require('ws');
-
-var Passport = require('maki-passport-local');
-var passport = new Passport({ resource: 'Person' });
 
 var jsonpatch = require('fast-json-patch');
 
@@ -25,7 +23,10 @@ source.base = source.proto + '://' + source.authority;
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
 
-decentralize.use( passport );
+var Sessions = require('maki-sessions');
+var sessions = new Sessions();
+
+decentralize.use(sessions);
 
 Show = decentralize.define('Show', {
   attributes: {
@@ -45,10 +46,43 @@ Show = decentralize.define('Show', {
   icon: 'sound'
 });
 
-Person = decentralize.define('Person', {
+var MailPimp = new Remote('http://localhost:2525/subscriptions');
+var Subscription = decentralize.define('Subscription', {
   attributes: {
-
+    email: { type: String , required: true , validator: function(value) {
+      // see HTML spec: https://html.spec.whatwg.org/multipage/forms.html#valid-e-mail-address
+      // this should mirror HTML5's "type=email", as per the above link
+      return /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test( value );
+    } },
+    status: { type: String , enum: ['requested', 'pending', 'validated'], default: 'requested' },
+    created: { type: Date , default: Date.now },
+  },
+  handlers: {
+    html: {
+      create: function(req, res, next) {
+        req.flash('info', 'Successfully subscribed!  Check your inbox for a confirmation.');
+        res.redirect('/');
+      }
+    }
   }
+});
+
+Subscription.post('create', function(done) {
+  var subscription = this;
+  MailPimp.create({
+    email: subscription.email,
+    // TODO: place in config, or auto-create-and-collect
+    _list: '55d490d83e5a3dcf5287129e'
+  }, function(err, data) {
+    // TODO: retry, error handling, etc.
+    if (!data._id) return done('no subscription created');
+    Subscription.patch({ _id: subscription._id }, [
+      { op: 'replace', path: '/status', value: 'pending' }
+    ], function(err) {
+      if (err) console.error(err);
+      done(err);
+    });
+  });
 });
 
 Index = decentralize.define('Index', {
@@ -88,6 +122,9 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
     });
     decentralize.app.get('/team', function(req, res, next) {
       res.render('team');
+    });
+    decentralize.app.get('/subscribe', function(req, res, next) {
+      res.render('subscribe');
     });
 
     // redirect an erroneous lengthy tag
