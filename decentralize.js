@@ -51,10 +51,18 @@ var Subscription = decentralize.define('Subscription', {
     } },
     status: { type: String , enum: ['requested', 'pending', 'validated'], default: 'requested' },
     created: { type: Date , default: Date.now },
+  },
+  handlers: {
+    html: {
+      create: function(req, res, next) {
+        //req.flash('info', 'Successfully subscribed!  We\'ll see you soon!');
+        res.redirect('/');
+      }
+    }
   }
 });
 
-Subscription.post('create', function() {
+Subscription.post('create', function(done) {
   var subscription = this;
   MailPimp.create({
     email: subscription.email,
@@ -62,11 +70,12 @@ Subscription.post('create', function() {
     _list: '55d490d83e5a3dcf5287129e'
   }, function(err, data) {
     // TODO: retry, error handling, etc.
-    if (!data._id) return;
+    if (!data._id) return done('no subscription created');
     Subscription.patch({ _id: subscription._id }, [
       { op: 'replace', path: '/status', value: 'pending' }
     ], function(err) {
       if (err) console.error(err);
+      done(err);
     });
   });
 });
