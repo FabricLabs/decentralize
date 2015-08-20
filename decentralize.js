@@ -6,7 +6,7 @@ var procure = require('procure');
 var Maki = require('maki');
 var Soundcloud = require('./lib/Soundcloud');
 var Engine = require('./lib/Engine');
-var Remote = require('./lib/Remote');
+var Remote = require('maki-remotes');
 var WebSocket = require('ws');
 
 var jsonpatch = require('fast-json-patch');
