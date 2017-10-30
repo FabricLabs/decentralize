@@ -12,13 +12,14 @@ module.exports = {
     mission: 'the podcast',
     description: 'The best place for learning about what\'s going on with the latest decentralized tech.',
     source: 'https://github.com/martindale/decentralize',
-    points: []
+    points: [],
+    dependencies: ['decentral']
   },
   source: {
     sockets: 'ws://',
     proto: 'http',
-    host: 'localhost',
-    port: '15005'
+    host: process.env.DECENTRAL_HOST || 'localhost',
+    port: process.env.DECENTRAL_PORT || '15005'
   },
   soundcloud: {
     clientID: '98ce66124fabdff2f33beb2f810a0a25',
