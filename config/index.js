@@ -16,10 +16,10 @@ module.exports = {
     dependencies: ['decentral']
   },
   source: {
-    sockets: 'ws://',
-    proto: 'http',
-    host: process.env.DECENTRAL_HOST || 'localhost',
-    port: process.env.DECENTRAL_PORT || '15005'
+    sockets: 'wss://',
+    proto: 'https',
+    host: process.env.DECENTRAL_HOST || 'decentral.fm',
+    port: process.env.DECENTRAL_PORT || '443'
   },
   soundcloud: {
     clientID: '98ce66124fabdff2f33beb2f810a0a25',

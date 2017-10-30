@@ -3,8 +3,11 @@
   "version": "0.0.0",
   "description": "decentralize the podcast",
   "main": "lib/decentralize.js",
+  "engine": "node >= 8.0.0",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "NODE_ENV=test istanbul cover _mocha -- --recursive",
+    "start": "node decentralize:web.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +29,7 @@
     "fast-json-patch": "^0.5.1",
     "form-data": "^0.2.0",
     "lodash": "^3.3.0",
-    "maki": "github:martindale/maki#v0.2.1",
+    "maki": "github:martindale/maki#tatami",
     "maki-remote": "0.0.1",
     "maki-sessions": "^0.1.0",
     "node-torrent-stream": "git://github.com/unusualbob/node-torrent-stream",
