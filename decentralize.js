@@ -10,6 +10,8 @@ var Engine = require('./lib/Engine');
 
 var Remote = require('maki-remote');
 var Sessions = require('maki-sessions');
+var ProxAuth = require('maki-auth-proxy');
+var Policies = require('maki-auth-tokens');
 
 var rest = require('restler');
 
@@ -17,6 +19,7 @@ var home = 'https://' + config.service.authority;
 
 var source = config.source;
 source.authority = source.host;
+
 if (!~[80, 443].indexOf( parseInt(source.port) )) {
   source.authority += ':' + source.port;
 }
@@ -25,8 +28,10 @@ source.base = source.proto + '://' + source.authority;
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
 var sessions = new Sessions();
+var policies = new Policies();
 
 decentralize.use(sessions);
+//decentralize.use(policies);
 
 // setup of various remotes, subservices on another Maki namespace
 var MailPimpSubscription = new Remote('http://localhost:2525/subscriptions');
