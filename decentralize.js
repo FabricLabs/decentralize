@@ -1,15 +1,17 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 var config = require('./config');
+var WebSocket = require('ws');
 var procure = require('procure');
-
 var Maki = require('maki');
+
 var Soundcloud = require('./lib/Soundcloud');
 var Engine = require('./lib/Engine');
-var Remote = require('maki-remote');
-var WebSocket = require('ws');
 
-var jsonpatch = require('fast-json-patch');
+var Remote = require('maki-remote');
+var Sessions = require('maki-sessions');
+
+var rest = require('restler');
 
 var home = 'https://' + config.service.authority;
 
@@ -22,8 +24,6 @@ source.base = source.proto + '://' + source.authority;
 
 var decentralize = new Maki( config );
 var soundcloud = new Soundcloud( config.soundcloud );
-
-var Sessions = require('maki-sessions');
 var sessions = new Sessions();
 
 decentralize.use(sessions);
@@ -31,24 +31,6 @@ decentralize.use(sessions);
 // setup of various remotes, subservices on another Maki namespace
 var MailPimpSubscription = new Remote('http://localhost:2525/subscriptions');
 var MailPimpTask = new Remote('http://localhost:2525/tasks');
-
-Show = decentralize.define('Show', {
-  attributes: {
-    title: { type: String , slug: true },
-    slug: { type: String },
-    recorded: { type: Date },
-    released: { type: Date , default: Date.now , required: true },
-    description: { type: String },
-    audio: { type: String },
-    filename: { type: String },
-    // TODO: replace with a sources list.
-    youtube: { type: String },
-    soundcloud: { type: String },
-  },
-  names: { get: 'item' },
-  source: source.proto + '://' + source.authority + '/recordings',
-  icon: 'sound'
-});
 
 var Subscription = decentralize.define('Subscription', {
   attributes: {
@@ -88,18 +70,8 @@ Subscription.post('create', function(done) {
   });
 });
 
-Index = decentralize.define('Index', {
-  name: 'Index',
-  routes: { query: '/' },
-  templates: { query: 'index' },
-  requires: {
-    'Show': {
-      filter: {}
-    }
-  },
-  static: true,
-  internal: true
-});
+Show  = decentralize.define('Show',  require('./resources/Show') );
+Index = decentralize.define('Index', require('./resources/Index') );
 
 procure( source.base + '/shows/decentralize' , function(err, show) {
   if (err || !show) return console.error(err || 'no such show: decentralize');
@@ -157,6 +129,25 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
         return next();
       }
     });
+    decentralize.app.get('/shows/:showSlug/edit', function(req, res, next) {
+      Show.get({ slug: req.param('showSlug') }, function(err, show) {
+        return res.render('show-edit', {
+          item: show
+        });
+      });
+    });
+    decentralize.app.post('/shows/:showSlug', function(req, res, next) {
+      rest.patch( source.proto + '://' + source.authority + '/recordings/' + req.param('showSlug') , {
+        headers: {
+          Accept: 'application/json'
+        },
+        data: req.body
+      }).on('complete', function(data, request) {
+        if (request.statusCode !== 200) return res.error('Editing failed');
+        req.flash('success', 'Content edited successfully!');
+        return res.redirect('/shows/' + req.param('showSlug'));
+      });
+    });
     decentralize.app.get('/rss', function(req, res, next) {
       res.redirect( 301 , '/feed' );
     });
@@ -178,6 +169,7 @@ procure( source.base + '/shows/decentralize' , function(err, show) {
 
     engine.subscribe();
     engine.sync();
+    engine.subscribe();
 
   });
 
