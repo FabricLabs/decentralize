@@ -2,9 +2,12 @@
   "name": "decentralize",
   "version": "0.0.0",
   "description": "decentralize the podcast",
-  "main": "decentralize.js",
+  "main": "lib/decentralize.js",
+  "engine": "node >= 8.0.0",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "NODE_ENV=test istanbul cover _mocha -- --recursive",
+    "start": "node decentralize:web.js"
   },
   "repository": {
     "type": "git",
@@ -23,21 +26,23 @@
   "dependencies": {
     "async": "^0.9.0",
     "content-disposition": "^0.5.0",
-    "fast-json-patch": "^0.5.1",
+    "fast-json-patch": "^0.5.2",
     "form-data": "^0.2.0",
     "lodash": "^3.3.0",
-    "maki": "git://github.com/martindale/maki#6be8e8d5949e00f79abf348a406e3369c883051d",
+    "maki": "github:martindale/maki#tatami",
     "maki-remote": "0.0.1",
+    "maki-auth-proxy": "0.0.0",
     "maki-sessions": "^0.1.0",
     "node-torrent-stream": "git://github.com/unusualbob/node-torrent-stream",
-    "procure": "^0.1.3",
+    "procure": "^0.1.4",
     "request": "^2.53.0",
     "restler": "^3.2.2",
     "ws": "^0.7.1"
   },
   "devDependencies": {
-    "coveralls": "^2.11.2",
-    "istanbul": "^0.3.6",
+    "chai": "^4.1.2",
+    "coveralls": "^2.13.3",
+    "istanbul": "^0.3.22",
     "mocha": "^2.1.0"
   }
 }
