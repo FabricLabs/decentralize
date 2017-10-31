@@ -4,15 +4,21 @@ var expect = require('chai').expect;
 var DECENTRALIZE = require('../');
 var config = require('../config');
 
-describe('DECENTRALIZE', function() {
+describe('DECENTRALIZE', function () {
   this.timeout(20000);
   
-  it('should expose a constructor', function(){
+  it('should expose a constructor', function () {
     assert(typeof DECENTRALIZE, 'function');
   });
   
   it('should start successfully', function (done) {
     var app = new DECENTRALIZE(config);
-    app.start(done);
+    app.start(function () {
+      app.destroy(done);
+    });
+  });
+  
+  it('can create a local recording', function (done) {
+    done();
   });
 });
