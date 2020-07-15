@@ -25,7 +25,7 @@
     "content-disposition": "^0.5.0",
     "fast-json-patch": "^0.5.1",
     "form-data": "^0.2.0",
-    "lodash": "^3.3.0",
+    "lodash": "^4.17.19",
     "maki": "git://github.com/martindale/maki#6be8e8d5949e00f79abf348a406e3369c883051d",
     "maki-remote": "0.0.1",
     "maki-sessions": "^0.1.0",
